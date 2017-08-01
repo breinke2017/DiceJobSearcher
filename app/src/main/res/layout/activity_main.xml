@@ -24,26 +24,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/header_section">
 
-            <!--<EditText-->
-                <!--android:id="@+id/et_query"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:inputType="text"-->
-                <!--android:imeOptions="actionDone"-->
-                <!--android:maxLines="1"-->
-                <!--android:hint="Enter subject to narrow down the results"-->
-                <!--/>-->
-
-            <!--<Button-->
-                <!--android:id="@+id/but_queryOk"-->
-                <!--android:text="Submit Query"-->
-                <!--android:layout_below="@+id/et_query"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--&gt;-->
-                <!---->
-            <!--</Button>-->
-
             <Button
                 android:id="@+id/but_prevpage"
                 android:layout_width="wrap_content"

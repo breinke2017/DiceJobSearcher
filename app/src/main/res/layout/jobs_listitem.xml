@@ -88,17 +88,5 @@
             android:layout_toRightOf="@+id/txt_jobPostingDate"
             android:layout_below="@+id/txt_location"
             android:hint="posting date" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/txt_URL"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_toRightOf="@+id/txt_jobURL"-->
-            <!--android:layout_below="@+id/txt_postingDate"-->
-            <!--android:hint="url" />-->
-        
-
-        
     </RelativeLayout>
 </LinearLayout>
