@@ -3,28 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_main"
-        android:icon="@drawable/ic_menu_white_24dp"
+        android:id="@+id/menu_item_editsearches"
+        android:title="Edit Searches"
         app:showAsAction="ifRoom"
-        android:title="menu">
-        <menu >
-            <!--TODO: implement this in a future version-->
-            <!--<item-->
-                <!--android:id="@+id/menu_item_savedsearches"-->
-                <!--android:title="Saved Searches"-->
-                <!--/>-->
-            <item
-                android:id="@+id/menu_item_editsearches"
-                android:title="Edit Searches"
-                android:icon="@drawable/ic_edit_black_24dp"  />
-        </menu>
-    </item>
+        android:icon="@drawable/ic_edit_white_24dp"  />
+
+    <!--<item-->
+        <!--android:id="@+id/menu_main"-->
+        <!--android:icon="@drawable/ic_menu_white_24dp"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--android:title="menu">-->
+        <!--<menu >-->
+            <!--&lt;!&ndash;TODO: implement this in a future version&ndash;&gt;-->
+            <!--&lt;!&ndash;<item&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/menu_item_savedsearches"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:title="Saved Searches"&ndash;&gt;-->
+                <!--&lt;!&ndash;/>&ndash;&gt;-->
+            <!---->
+        <!--</menu>-->
+    <!--</item>-->
 
     <item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_refresh_white_24dp"
         app:showAsAction="ifRoom"
         android:title=""
-        android:visible="false">
+        android:visible="true">
     </item>
 </menu>

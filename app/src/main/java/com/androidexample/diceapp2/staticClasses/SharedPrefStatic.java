@@ -40,6 +40,9 @@ public class SharedPrefStatic {
             query_URI_AL.add(new QueryURI("age", jobAgeStr));
         }
 
+        query_URI_AL.add(new QueryURI("page", String.valueOf(Api_Data.mCurrentPage)));
+
+
         if (query_URI==null) {
             query_URI=query_URI_AL;
         }

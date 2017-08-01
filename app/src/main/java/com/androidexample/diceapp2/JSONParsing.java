@@ -7,6 +7,7 @@ package com.androidexample.diceapp2;
 import android.util.Log;
 
 import com.androidexample.diceapp2.genericContainers.Jobs;
+import com.androidexample.diceapp2.staticClasses.Api_Data;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,9 +39,9 @@ public class JSONParsing {
 
         // This is a local arraylist we build...then pass back.
         List<Jobs> jobsAL = new ArrayList<>();
-        int totalPages=0;
-        int firstDocument=0;
-        int lastDocument=0;
+        Api_Data.mCount=0;
+        Api_Data.mFirstDocument=0;
+        Api_Data.mLastDocument=0;
 
         // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -52,20 +53,21 @@ public class JSONParsing {
             JSONObject baseJsonResponse = new JSONObject(JSON_RESPONSE);
 
             // Here is where we get the page info from.
-            totalPages = baseJsonResponse.getInt("count");
-            firstDocument = baseJsonResponse.getInt("firstDocument");
-            lastDocument = baseJsonResponse.getInt("lastDocument");
+
+            Api_Data.mCount = baseJsonResponse.getInt("count");
+            Api_Data.mFirstDocument = baseJsonResponse.getInt("firstDocument");
+            Api_Data.mLastDocument = baseJsonResponse.getInt("lastDocument");
 
             // Next, get a list of arrays from JSON...everything we want is in the 'items' array.
             // How this API is structured: all books in the API exist in this 'items' array.
             // Each array item is a different book.
-            if (totalPages>0) {
+            if (Api_Data.mCount>0) {
                 JSONArray jobs_jsonArray = baseJsonResponse.getJSONArray("resultItemList");
 
                 // iterate over the list of JSON values.
-                Log.v("!myapp!", "firstDocument: " + firstDocument);
-                Log.v("!myapp!", "lastDocument: " + lastDocument);
-                Log.v("!myapp!", "total number of records " + totalPages);
+                Log.v("!myapp!", "firstDocument: " + Api_Data.mFirstDocument);
+                Log.v("!myapp!", "lastDocument: " + Api_Data.mLastDocument);
+                Log.v("!myapp!", "total number of records " + Api_Data.mCount);
                 Log.v("!myapp!", "JSON records per page: " + jobs_jsonArray.length());
                 for (int i = 0; i < jobs_jsonArray.length(); i++) {
                     JSONObject currentJobsObject = jobs_jsonArray.getJSONObject(i);
@@ -79,7 +81,7 @@ public class JSONParsing {
                     date = currentJobsObject.getString("date");
 
                     // Adds the records to the book ArrayList
-                    jobsAL.add(new Jobs(totalPages, firstDocument, lastDocument, detailUrl,
+                    jobsAL.add(new Jobs(Api_Data.mCount, Api_Data.mFirstDocument, Api_Data.mLastDocument, detailUrl,
                             location, date, company, jobTitle));
                 }
             }
@@ -88,7 +90,7 @@ public class JSONParsing {
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
 
-            if (totalPages==0) {
+            if (Api_Data.mCount==0) {
                 Log.v("!myapp!", "No pages to display for subject!");
             }
             Log.e("!myapp!", "Problem parsing the Jobs JSON results", e);

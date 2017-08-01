@@ -38,20 +38,20 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
         Jobs currentItem = itemListData.get(position);
 
         // assign the UI their data.
-        TextView textItem = (TextView) listItemView.findViewById(R.id.txt_title);
-        textItem.setText(currentItem.getJobText());
+        TextView textTitleItem = (TextView) listItemView.findViewById(R.id.txt_title);
+        textTitleItem.setText(currentItem.getJobText());
 
-        textItem = (TextView) listItemView.findViewById(R.id.txt_company);
-        textItem.setText(currentItem.getCompany());
+        TextView textCompanyItem = (TextView) listItemView.findViewById(R.id.txt_company);
+        textCompanyItem.setText(currentItem.getCompany());
 
-        textItem = (TextView) listItemView.findViewById(R.id.txt_location);
-        textItem.setText(currentItem.getLocation());
+        TextView textLocationItem = (TextView) listItemView.findViewById(R.id.txt_location);
+        textLocationItem.setText(currentItem.getLocation());
 
-        textItem = (TextView) listItemView.findViewById(R.id.txt_postingDate);
-        textItem.setText(currentItem.getPostingDate());
+        TextView textPostingDateItem = (TextView) listItemView.findViewById(R.id.txt_postingDate);
+        textPostingDateItem.setText(currentItem.getPostingDate());
 
-        textItem = (TextView) listItemView.findViewById(R.id.txt_URL);
-        textItem.setText(currentItem.getDetailURL());
+//        textItem = (TextView) listItemView.findViewById(R.id.txt_URL);
+//        textItem.setText(currentItem.getDetailURL());
     }
 
 

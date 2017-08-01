@@ -126,6 +126,7 @@ public class EditSearchActivity extends AppCompatActivity {
 
         Log.v("!myapp!", "*** hit onstop in EditSearchActivity!");
         Log.v("!myapp!", "*** SharedPrefStatic.query_URI is : " + SharedPrefStatic.query_URI);
+
     }
 
     protected void onDestroy() {
@@ -156,6 +157,8 @@ public class EditSearchActivity extends AppCompatActivity {
         editer.putString(AppConstants.PREF_KEY_SKILL, jobSkillStr);
         editer.putString(AppConstants.PREF_KEY_LOCATION, jobLocationStr);
         editer.putString(AppConstants.PREF_KEY_AGE, jobAgeStr);
+
+        // The commit runs faster.
         editer.apply();
 
         // Run this every time we're building a query.

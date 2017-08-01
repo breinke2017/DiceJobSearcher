@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,52 +22,51 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.androidexample.diceapp2.constantContainers.AppConstants;
-import com.androidexample.diceapp2.enumContainers.ADDPREF_ACTION;
 import com.androidexample.diceapp2.genericContainers.Jobs;
 import com.androidexample.diceapp2.networking.NetworkStreaming;
+import com.androidexample.diceapp2.staticClasses.Api_Data;
 import com.androidexample.diceapp2.staticClasses.SharedPrefStatic;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
+
+
+//Todo: One very strange thing I see is that every 10 records does a weird thing where it changes data when you scroll up or down.
+//Todo: Records after 10 repeat in order.....The data underneath is correct but the widget text information is not!
+
+
+// Todo: Doesn't refresh or load when user rotates screen to landscape.
 
 /*
 * Is the news app with AsyncTask Loader.
 *
 * */
 
-
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Jobs>> {
 
-    // Constants
-    public static final String STRING_KEY_SEARCH_QUERY="SearchQueryList";
-    private static final int MAX_ACTIONMENU_SIZE=10;
-
-    public static int currentPage;
     // Is used in getJSONReponse because no other way to get this info.
     public static String queryLookup="";
 
     private RecyclerView mRecyclerView;
     public static List<Jobs> jobs_AL = new ArrayList<>();
     private ListView searchQueryListView;
-    private EditText queryEditText;
     private Dialog dialog;
     private List<String> searchArrayList = new ArrayList<>();
-    private MenuItem actionItem;
     public static SharedPreferences sharedPref;
     private Intent mIntentWebViewActivity=null;
 
+    private Button but_prevpage;
+    private Button but_nextpage;
+    private TextView txt_message;
 
     // Widget variables to keep track of.
-    private int savedSearchesCount=0;
     private MenuItem menu_savedSearches=null;
     private MenuItem menu_refresh=null;
 
@@ -88,6 +86,7 @@ public class MainActivity extends AppCompatActivity
 
         // sets up other items...don't want to keep creating new objects unneccarily.
         mIntentWebViewActivity = new Intent(this, WebViewActivity.class);
+        Api_Data.mCurrentPage=1;
 
         // load SharedPreferences
         sharedPref=setupSharedPreferences(AppConstants.PREF_FILENAME);
@@ -96,6 +95,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupFindByViewIDs() {
+        but_prevpage = (Button) findViewById(R.id.but_prevpage);
+        but_nextpage = (Button) findViewById(R.id.but_nextpage);
+        txt_message=(TextView) findViewById(R.id.txt_message);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerviewWidget);
     }
 
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity
 
         // verified.
         if (SharedPrefStatic.initialLoadNetworkData==true || (SharedPrefStatic.editIntentLoaded==true && SharedPrefStatic.editIntentSaved==true)) {
+
             triggerOurQuery();
 
             // Call after hitting this so we don't keep initiating a load.
@@ -155,7 +159,7 @@ public class MainActivity extends AppCompatActivity
         // Also, setup other menu finditems.
         //todo: Implement these in future versions.  The refresh should be removed.
 //        menu_savedSearches = menu.findItem(R.id.menu_item_savedsearches);
-//        menu_refresh = menu.findItem(R.id.menu_refresh);
+        menu_refresh = menu.findItem(R.id.menu_refresh);
 
         return true;
     }
@@ -173,9 +177,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
                 return true;
             case R.id.menu_refresh:
-                //todo: For some reason  is getting hit when we click on the menu / Edit Searches...weird.
-                // shouldn't need.
-//                triggerOurQuery();
+//                //re-check internet connection
+                boolean hasInternetConnection= checkInternetConnectivity(MainActivity.this.getApplicationContext());
                 return true;
 
 //                return true;
@@ -271,6 +274,22 @@ public class MainActivity extends AppCompatActivity
         // onLoadFinished must have a List<T> type!
         Log.v("!myapp!", "*** onLoadFinished occurred!");
 
+
+        // set next/prev buttons
+        if (Api_Data.mLastDocument<Api_Data.mCount) {
+            but_nextpage.setVisibility(View.VISIBLE);
+        }
+        else {
+            but_nextpage.setVisibility(View.INVISIBLE);
+        }
+
+        if (Api_Data.mCurrentPage>1) {
+            but_prevpage.setVisibility(View.VISIBLE);
+        }
+        else {
+            but_prevpage.setVisibility(View.INVISIBLE);
+        }
+
         // Runs on each load finished, and runs after the close of every intent.
 
 //        /*
@@ -329,56 +348,6 @@ public class MainActivity extends AppCompatActivity
         setupRecyclerViewListeners(adapter, MainActivity.jobs_AL);
     }
 
-    private void setupRecyclerListener(List<Jobs> jobs_al) {
-        final List<Jobs> jobs_al_copy = jobs_al;
-
-        //todo: We shouldn't be recreating this listener over and over and over!
-        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
-                mRecyclerView, new ClickListener() {
-
-            @Override
-            public void onClick(View view, final int position) {
-                // Add your onClick() code here.
-
-                // For some odd reason, when I do a click, it's hitting this multiple times.
-                Log.v("!myapp!", "onClick occurred at position " + position);
-
-
-                // Get information from our arraylist regarding this position.
-                Jobs curJobsItem = jobs_al_copy.get(position);
-                //    String webURL = curJobsItem.getDetailURL();
-
-                //                // sets up intent to open as webbrowser.
-                //                Intent i = new Intent();
-                //                i.setAction(Intent.ACTION_VIEW);
-                //                i.addCategory(Intent.CATEGORY_BROWSABLE);
-                //                i.setData(Uri.parse(webURL));
-                //                startActivity(i);
-
-                // Build an arrayList that will have needed information from List<Jobs>.
-                ArrayList<String> jobsUrlData = new ArrayList<>(4);
-                jobsUrlData.add(0,jobs_al_copy.get(position).getDetailURL());
-                jobsUrlData.add(1,jobs_al_copy.get(position).getJobText());
-                jobsUrlData.add(2,jobs_al_copy.get(position).getCompany());
-                jobsUrlData.add(3,jobs_al_copy.get(position).getLocation());
-                jobsUrlData.add(4,jobs_al_copy.get(position).getPostingDate());
-
-                // sets up intent to open as WebView.
-                Log.v("!myapp!", "opening activity");
-                mIntentWebViewActivity.setData(Uri.parse(curJobsItem.getDetailURL()));
-                mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
-                        jobsUrlData);
-                startActivity(mIntentWebViewActivity);
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                // Add your onLongClick() code here.
-            }
-        }));
-
-    }
-
     private void setupRecyclerViewListeners(RecyclerView.Adapter adapter, List<Jobs> jobs_al) {
 
         boolean hitZeroRecords = false;
@@ -393,35 +362,38 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view, final int position) {
                 // Add your onClick() code here.
 
-                // For some odd reason, when I do a click, it's hitting this multiple times.
-                Log.v("!myapp!", "onClick occurred at position " + position);
+                // Determines internet connectivity...if working, then display the data otherwise show internet error.
+                // no special query text.
+                boolean hasInternetConnection=checkInternetConnectivity(MainActivity.this);
+                if (hasInternetConnection) {
+                    Log.v("!myapp!", "yes, we have internet connection!!");
 
+                    // Get information from our arraylist regarding this position.
+                    Jobs curJobsItem = jobs_al_copy.get(position);
+                    //    String webURL = curJobsItem.getDetailURL();
 
-                // Get information from our arraylist regarding this position.
-                Jobs curJobsItem = jobs_al_copy.get(position);
-                //    String webURL = curJobsItem.getDetailURL();
+                    //                // sets up intent to open as webbrowser.
+                    //                Intent i = new Intent();
+                    //                i.setAction(Intent.ACTION_VIEW);
+                    //                i.addCategory(Intent.CATEGORY_BROWSABLE);
+                    //                i.setData(Uri.parse(webURL));
+                    //                startActivity(i);
 
-                //                // sets up intent to open as webbrowser.
-                //                Intent i = new Intent();
-                //                i.setAction(Intent.ACTION_VIEW);
-                //                i.addCategory(Intent.CATEGORY_BROWSABLE);
-                //                i.setData(Uri.parse(webURL));
-                //                startActivity(i);
+                    // Build an arrayList that will have needed information from List<Jobs>.
+                    ArrayList<String> jobsUrlData = new ArrayList<>(4);
+                    jobsUrlData.add(0,jobs_al_copy.get(position).getDetailURL());
+                    jobsUrlData.add(1,jobs_al_copy.get(position).getJobText());
+                    jobsUrlData.add(2,jobs_al_copy.get(position).getCompany());
+                    jobsUrlData.add(3,jobs_al_copy.get(position).getLocation());
+                    jobsUrlData.add(4,jobs_al_copy.get(position).getPostingDate());
 
-                // Build an arrayList that will have needed information from List<Jobs>.
-                ArrayList<String> jobsUrlData = new ArrayList<>(4);
-                jobsUrlData.add(0,jobs_al_copy.get(position).getDetailURL());
-                jobsUrlData.add(1,jobs_al_copy.get(position).getJobText());
-                jobsUrlData.add(2,jobs_al_copy.get(position).getCompany());
-                jobsUrlData.add(3,jobs_al_copy.get(position).getLocation());
-                jobsUrlData.add(4,jobs_al_copy.get(position).getPostingDate());
-
-                // sets up intent to open as WebView.
-                Log.v("!myapp!", "opening activity");
-                mIntentWebViewActivity.setData(Uri.parse(curJobsItem.getDetailURL()));
-                mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
-                        jobsUrlData);
-                startActivity(mIntentWebViewActivity);
+                    // sets up intent to open as WebView.
+                    Log.v("!myapp!", "opening activity");
+                    mIntentWebViewActivity.setData(Uri.parse(curJobsItem.getDetailURL()));
+                    mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
+                            jobsUrlData);
+                    startActivity(mIntentWebViewActivity);
+                }
             }
 
             @Override
@@ -429,10 +401,6 @@ public class MainActivity extends AppCompatActivity
                 // Add your onLongClick() code here.
             }
         }));
-
-
-
-
 
 
 
@@ -448,18 +416,6 @@ public class MainActivity extends AppCompatActivity
         ProgressBar progressBar = (ProgressBar) this.findViewById(R.id.progressbar);
         progressBar.setVisibility(View.INVISIBLE);
 
-//        Button but_prevpage = (Button) this.findViewById(R.id.but_prevpage);
-//        Button but_nextpage = (Button) this.findViewById(R.id.but_nextpage);
-//        if (hitZeroRecords == false) {
-//            if (jobs_al.get(0).getCurrentPage() == 1) {
-//                but_prevpage.setVisibility(View.INVISIBLE);
-//                but_nextpage.setVisibility(View.VISIBLE);
-//            } else if (jobs_al.get(0).getCurrentPage()==jobs_al.get(0).getCurrentPage()) {
-//                but_nextpage.setVisibility(View.INVISIBLE);
-//            } else if (jobs_al.get(0).getCurrentPage() > 1) {
-//                but_prevpage.setVisibility(View.VISIBLE);
-//            }
-//        }
 
         // Setup our Click Listeners
         // ------------------------
@@ -483,31 +439,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
-//        // Prev page listener
-//        but_prevpage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (MainActivity.currentPage > 1) {
-//                    MainActivity.currentPage -= 1;
-//                }
-//
-//                // todo: is this okay?
-//                runNetworkQuery(MainActivity.this);
-//            }
-//        });
-//
-//        // Next page listener
-//        but_nextpage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MainActivity.currentPage += 1;
-//
-//                // todo: is this okay?
-//                runNetworkQuery(MainActivity.this);
-//            }
-//        });
     }
 
 
@@ -524,26 +455,27 @@ public class MainActivity extends AppCompatActivity
 
     // User clicked the submit query button
     private void setupListeners() {
-//        Button button = (Button) findViewById(R.id.but_queryOk);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // resets widgets and data to a clean view.
-//                triggerOurQuery();
-//            }
-//        });
+        // Prev page listener
+        but_prevpage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Api_Data.mCurrentPage -= 1;
 
-//        this.queryEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                // User hit the enter button to submit a query.
-//                triggerOurQuery();
-//                return false;
-//            }
-//        });
+                SharedPrefStatic.buildUriQuery();
+                runNetworkQuery(MainActivity.this);
+            }
+        });
 
+        // Next page listener
+        but_nextpage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Api_Data.mCurrentPage += 1;
 
-//        setupRecyclerListener(MainActivity.jobs_AL);
+                SharedPrefStatic.buildUriQuery();
+                runNetworkQuery(MainActivity.this);
+            }
+        });
     }
 
 
@@ -551,114 +483,10 @@ public class MainActivity extends AppCompatActivity
     *  Gets called when the user hits the submit button or when a screen rotation occurs.
     * */
     public void triggerOurQuery() {
-        // Added fix: Keep the string the user entered until we do the URI lookup....the URI
-        //   cannot contain spaces!
-//        this.queryLookup=queryEditText.getText().toString();
-//        populateQueryPrefs(ADDPREF_ACTION.LOADFROMCLICKEDQUERY, null, this.queryLookup);
-
-        MainActivity.currentPage=1;     // reset to page 1 for any new query.
-        Button but_prevpage = (Button) findViewById(R.id.but_prevpage);
-        Button but_nextpage = (Button) findViewById(R.id.but_nextpage);
-//        but_prevpage.setVisibility(View.GONE);
-//        but_nextpage.setVisibility(View.GONE);
-
-//        ProgressBar progressBar=(ProgressBar) findViewById(R.id.progressbar);
-//        progressBar.setVisibility(View.VISIBLE);
-
         runNetworkQuery(MainActivity.this);
     }
 
-    /*
-    * Populates the QueryValue and EditText with the Query the user choose.
-    *
-    * Note: This gets triggered 3 times:
-    *   1) ** When reading in SharedPreferences. **
-    *   2) After user selected something in the ActionMenu.
-    *   3) After screen rotation -- ??
-    *
-    * */
-    private void populateQueryPrefs(ADDPREF_ACTION actionId, @Nullable HashSet menuQueryValues, @Nullable String menuQueryValue) {
-        // First, we'll convert the HashSet to ArrayList then store it in the ArrayList.
-        // Second, we'll leave the query value in EditText to be empty.
 
-        if (actionId==ADDPREF_ACTION.LOADFROMSHAREDPREF) {
-            // This is implementation when we're reading in SharedPreferences at startup.
-            // Wipe out any existing data in the searchArrayList arraylist.
-            searchArrayList.removeAll(searchArrayList);
-
-            // Convert the HashSet used by SharedPreferences to an ArrayList.
-            int i=0;
-            for (Object curItem: menuQueryValues) {
-                // Only allow so many items in the arraylist...to keep the menu smaller.
-                i++;
-                if (i<=MAX_ACTIONMENU_SIZE) {
-                    searchArrayList.add(curItem.toString());
-                }
-            }
-
-            // The last entry in the arraylist is what we'll use for the queryValues.
-//            this.queryLookup=(searchArrayList.get(searchArrayList.size()-1));
-//            queryEditText.setText(this.queryLookup);
-        }
-        else if (actionId==ADDPREF_ACTION.LOADFROMCLICKEDQUERY) {
-            // We're adding values to the arrayList because user clicked the submit button.
-            if (!searchArrayList.contains(menuQueryValue)) {
-                // Not found...add to searchArrayList.
-                // ...however, if we're over the limit, then remove the older entries.
-                if (searchArrayList.size()>=MainActivity.MAX_ACTIONMENU_SIZE) {
-                    searchArrayList.remove(0);
-                }
-                searchArrayList.add(menuQueryValue);
-            }
-        }
-        else if (actionId==ADDPREF_ACTION.LOADFROMACTIONMENU) {
-            // Loads up string from ActionMenuItem.
-//            queryEditText.setText(menuQueryValue);
-//            this.queryLookup = menuQueryValue;
-        }
-
-
-
-//        // Adds this.queryLookup to searchArrayList should it not exist.
-//        if (!searchArrayList.contains(queryValueToAdd)) {
-//            // Not found...add to searchArrayList.
-//            searchArrayList.add(queryValueToAdd);
-//        }
-//
-//
-//        if (!menuQueryValues.equals("")) {
-//            // We're getting queryValue from the ActionItem menu.
-//
-//            // We cannot have spaces in the URI otherwise it wont find anything.
-//            menuQueryValues=menuQueryValues.replace(" ", "");
-//            this.queryLookup=menuQueryValues;
-//            queryEditText.setText(menuQueryValues);
-//        }
-//        else {
-//            this.queryLookup = mQueryTextToSave = queryEditText.getText().toString().trim();
-//        }
-//
-//        // Adds query to SearchArrayList arrayList.
-//        populateSearchArrayList(this.queryLookup);
-    }
-
-
-//    private void populateQueryValue(String menuQueryValue) {
-//        if (!menuQueryValue.equals("")) {
-//            // We're getting queryValue from the ActionItem menu.
-//
-//            // We cannot have spaces in the URI otherwise it wont find anything.
-//            menuQueryValue=menuQueryValue.replace(" ", "");
-//            this.queryLookup=menuQueryValue;
-//            queryEditText.setText(menuQueryValue);
-//        }
-//        else {
-//            this.queryLookup = mQueryTextToSave = queryEditText.getText().toString().trim();
-//        }
-//
-//        // Adds query to SearchArrayList arrayList.
-//        populateSearchArrayList(this.queryLookup);
-//    }
 
     /*
     * Populates populateSearchArrayList which will save to the Preferences.
@@ -678,15 +506,9 @@ public class MainActivity extends AppCompatActivity
 
         // Determines internet connectivity...if working, then display the data otherwise show internet error.
         // no special query text.
-        boolean hasInternetConnection= NetworkStreaming.checkInternetConnection(context.getApplicationContext());
-        if (hasInternetConnection==false) {
-            Log.v("!myapp!", "no internet connection!!");
+        boolean hasInternetConnection= checkInternetConnectivity(context);
 
-//            progressBar.setVisibility(View.INVISIBLE);
-//            txt_multiDisplay.setText("No internet connection.");
-//            txt_multiDisplay.setVisibility(View.VISIBLE);
-        }
-        else {
+        if (hasInternetConnection==true) {
             Log.v("!myapp!", "yes, we have internet connection!!");
 //            GetJSONResponse getJSONResponse = new GetJSONResponse(context, queryLookup);
 //            getJSONResponse.execute(null, null, null);
@@ -695,6 +517,27 @@ public class MainActivity extends AppCompatActivity
             getLoaderManager().initLoader(0, null, this).forceLoad();
         }
     }
+
+    private boolean checkInternetConnectivity(Context context){
+        // Determines internet connectivity...if working, then display the data otherwise show internet error.
+        // no special query text.
+        boolean hasInternetConnection= NetworkStreaming.checkInternetConnection(context.getApplicationContext());
+        if (hasInternetConnection==false) {
+            Log.v("!myapp!", "no internet connection!!");
+
+//            progressBar.setVisibility(View.INVISIBLE);
+            txt_message.setText("No internet connection.");
+            txt_message.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.INVISIBLE);
+        }
+        else {
+            Log.v("!myapp!", "yes, we have internet connection!!");
+            txt_message.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+        return hasInternetConnection;
+    }
+
 
     /*
 *  Sets up SharedPreferences.
@@ -713,6 +556,7 @@ public class MainActivity extends AppCompatActivity
         SharedPrefStatic.jobLocationStr=sharedPreferences_ob.getString(AppConstants.PREF_KEY_LOCATION, "");
         SharedPrefStatic.jobAgeStr=sharedPreferences_ob.getString(AppConstants.PREF_KEY_AGE, "");
 
+        // initial load.
         SharedPrefStatic.buildUriQuery();
 
         return sharedPreferences_ob;

@@ -41,19 +41,19 @@
             android:layout_below="@+id/txt_jobLocation"
             android:text="Posting Date: " />
 
-        <TextView
-            android:id="@+id/txt_jobURL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/txt_jobPostingDate"
-            android:text="URL: "  />
+        <!--<TextView-->
+            <!--android:id="@+id/txt_jobURL"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_below="@+id/txt_jobPostingDate"-->
+            <!--android:text="URL: "  />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_jobURL"
-            android:text="----------------------------------------------------------------------------"/>
+        <!--Creates a nice looking gray line around each control-->
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"/>
 
         <TextView
             android:id="@+id/txt_title"
@@ -89,14 +89,14 @@
             android:layout_below="@+id/txt_location"
             android:hint="posting date" />
 
-        <TextView
-            android:id="@+id/txt_URL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/txt_jobURL"
-            android:layout_below="@+id/txt_postingDate"
-            android:hint="url" />
+        <!--<TextView-->
+            <!--android:id="@+id/txt_URL"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_toRightOf="@+id/txt_jobURL"-->
+            <!--android:layout_below="@+id/txt_postingDate"-->
+            <!--android:hint="url" />-->
         
 
         
