@@ -6,7 +6,6 @@ package com.androidexample.diceapp2;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.util.Log;
 
 import com.androidexample.diceapp2.genericContainers.Jobs;
 import com.androidexample.diceapp2.networking.NetworkStreaming;
@@ -44,14 +43,12 @@ public class GetJSONResponse extends AsyncTaskLoader<List<Jobs>> {
 
     @Override
     public void onStartLoading() {
-        Log.v("!myapp!", "*** onStartLoading started!");
     }
 
 
     @Override
     public List<Jobs> loadInBackground() {
         //preExecute stuff!!
-        Log.v("!myapp!", "*** loadInBackground" + " started!");
 
         // This is not like AsyncTask...these values stay loaded. So, we want to remove them every time.
 //        query_URI_AL.removeAll(SharedPrefStatic.query_URI_AL);
@@ -64,7 +61,6 @@ public class GetJSONResponse extends AsyncTaskLoader<List<Jobs>> {
 
         this.myURLString = NetworkStreaming.BuildUriURL(SCHEME, AUTHORITY, RESOURCE, SharedPrefStatic.query_URI);
         this.myURLURL = NetworkStreaming.ConverttoURL(myURLString);
-        Log.v("!myapp!", "URL is: " + this.myURLURL.toString());
 
         // Stuff to actually do in background.
         this.JSONResponse = NetworkStreaming.makeHttpRequest(this.myURLURL);

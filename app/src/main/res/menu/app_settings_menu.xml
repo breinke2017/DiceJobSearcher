@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_settings_addtosaved"
-        android:title="Add to Saved">
+        android:title="@string/menu_AddToSaved">
     </item>
 
     <!--<menu >-->

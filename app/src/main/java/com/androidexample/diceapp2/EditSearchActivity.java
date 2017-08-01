@@ -3,7 +3,6 @@ package com.androidexample.diceapp2;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,8 +33,6 @@ public class EditSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editsearch);
-
-        Log.v("!myapp!", "*** WebActivity created!");
 
         // setup findByViewIds.
         setupFindByViewIds();
@@ -123,10 +120,6 @@ public class EditSearchActivity extends AppCompatActivity {
     protected void onStop() {
         // Save the preferences.
         super.onStop();
-
-        Log.v("!myapp!", "*** hit onstop in EditSearchActivity!");
-        Log.v("!myapp!", "*** SharedPrefStatic.query_URI is : " + SharedPrefStatic.query_URI);
-
     }
 
     protected void onDestroy() {

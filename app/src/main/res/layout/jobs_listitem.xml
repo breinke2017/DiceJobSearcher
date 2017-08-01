@@ -15,7 +15,7 @@
             android:id="@+id/txt_jobtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Job Title: " />
+            android:text="@string/job_title" />
 
         <TextView
             android:id="@+id/txt_jobCompany"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_below="@+id/txt_jobtitle"
-            android:text="Company: " />
+            android:text="@string/company" />
 
         <TextView
             android:id="@+id/txt_jobLocation"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_below="@+id/txt_jobCompany"
-            android:text="Location: " />
+            android:text="@string/location" />
 
         <TextView
             android:id="@+id/txt_jobPostingDate"
@@ -39,15 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_below="@+id/txt_jobLocation"
-            android:text="Posting Date: " />
-
-        <!--<TextView-->
-            <!--android:id="@+id/txt_jobURL"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_below="@+id/txt_jobPostingDate"-->
-            <!--android:text="URL: "  />-->
+            android:text="@string/posting_date" />
 
         <!--Creates a nice looking gray line around each control-->
         <View
@@ -60,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/txt_jobCompany"
-            android:hint="job title" />
+            android:hint="@string/job_title" />
 
         <TextView
             android:id="@+id/txt_company"
@@ -69,7 +61,7 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/txt_jobCompany"
             android:layout_below="@+id/txt_title"
-            android:hint="company" />
+            android:hint="@string/hint_company" />
 
         <TextView
             android:id="@+id/txt_location"
@@ -78,7 +70,7 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/txt_jobLocation"
             android:layout_below="@+id/txt_company"
-            android:hint="job location" />
+            android:hint="@string/job_location" />
 
         <TextView
             android:id="@+id/txt_postingDate"
@@ -87,6 +79,6 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/txt_jobPostingDate"
             android:layout_below="@+id/txt_location"
-            android:hint="posting date" />
+            android:hint="@string/posting_date" />
     </RelativeLayout>
 </LinearLayout>

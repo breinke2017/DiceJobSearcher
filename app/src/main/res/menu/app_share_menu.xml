@@ -11,11 +11,11 @@
             <item
                 android:id="@+id/menu_share_text"
                 android:icon="@drawable/ic_textsms_black_24dp"
-                android:title="Text"/>
+                android:title="@string/menu_ShareText"/>
             <item
                 android:id="@+id/menu_share_email"
                 android:icon="@drawable/ic_email_black_24dp"
-                android:title="Email"/>
+                android:title="@string/menu_ShareEmail"/>
         </menu>
     </item>
 </menu>

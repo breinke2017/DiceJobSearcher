@@ -2,7 +2,6 @@ package com.androidexample.diceapp2;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,7 +30,6 @@ class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
             @Override
             public void onLongPress(MotionEvent e) {
-                Log.v("!myapp!", "\n\nlong press occurred!");
 
 //                View child=recycleView.findChildViewUnder(e.getX(),e.getY());
 //                if(child!=null && clicklistener!=null){

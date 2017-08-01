@@ -15,7 +15,7 @@
         <TextView
             style="@style/TextTheme"
             android:layout_height="wrap_content"
-            android:text="Skill/Title:" />
+            android:text="@string/textSkillTitle" />
 
         <EditText
             style="@style/EditTextTheme"
@@ -23,7 +23,7 @@
             android:id="@+id/editText_edit_search_skill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="          Skill/title             "/>
+            android:hint="@string/text_SkillTitle"/>
     </LinearLayout>
 
     <LinearLayout
@@ -35,7 +35,7 @@
         <TextView
             style="@style/TextTheme"
             android:layout_height="wrap_content"
-            android:text="Searches entire job ad" />
+            android:text="@string/SearchesEntireJobAd" />
 
         <EditText
             style="@style/EditTextTheme"
@@ -43,7 +43,7 @@
             android:id="@+id/editText_edit_search_jobText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="          JobText             " />
+            android:hint="@string/JobText" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,7 +55,7 @@
         <TextView
             style="@style/TextTheme"
             android:layout_height="wrap_content"
-            android:text="Location: City/State or ZipCode" />
+            android:text="@string/Location1" />
 
         <EditText
             style="@style/EditTextTheme"
@@ -63,9 +63,8 @@
             android:id="@+id/editText_edit_search_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="          Location             " />
+            android:hint="@string/Location2_hint" />
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,7 +75,7 @@
         <TextView
             style="@style/TextTheme"
             android:layout_height="wrap_content"
-            android:text="Max age of job posting (in days)" />
+            android:text="@string/MaxAgeOfJobPosting" />
 
         <EditText
             style="@style/EditTextTheme"
@@ -84,6 +83,6 @@
             android:id="@+id/editText_edit_search_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="   Max age (in days)   " />
+            android:hint="@string/MaxAgeOfJobPosting_Hint" />
     </LinearLayout>
 </LinearLayout>

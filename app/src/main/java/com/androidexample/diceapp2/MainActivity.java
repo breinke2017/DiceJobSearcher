@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -69,8 +68,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.v("!myapp!", "*** Activity created occurred!");
-
         setupFindByViewIDs();
 
 
@@ -115,8 +112,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onRestart() {
         super.onRestart();
-
-        Log.v("!myapp!", "restart occurred!");
     }
 
 
@@ -129,8 +124,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        Log.v("!myapp!", "onDestroy() occurred!");
     }
 
     /*
@@ -182,7 +175,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Loader<List<Jobs>> onCreateLoader(int id, final Bundle args) {
         //Here we will initiate AsyncTaskLoader
-        Log.v("!myapp!", "*** onCreateLoader occurred!");
         ProgressBar myProgressBar=(ProgressBar) this.findViewById(R.id.progressbar);
         myProgressBar.setVisibility(View.VISIBLE);
 
@@ -191,7 +183,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<List<Jobs>> loader) {
-        Log.v("!myapp!", "*** onLoaderReset occurred!");
         loader = null;
     }
 
@@ -199,7 +190,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<List<Jobs>> loader, List<Jobs> jobs_al) {
         // onLoadFinished must have a List<T> type!
-        Log.v("!myapp!", "*** onLoadFinished occurred!");
 
 
         // set next/prev buttons
@@ -244,7 +234,6 @@ public class MainActivity extends AppCompatActivity
                 // no special query text.
                 boolean hasInternetConnection=checkInternetConnectivity(MainActivity.this);
                 if (hasInternetConnection) {
-                    Log.v("!myapp!", "yes, we have internet connection!!");
 
                     // Get information from our arraylist regarding this position.
                     Jobs curJobsItem = jobs_al_copy.get(position);
@@ -266,7 +255,6 @@ public class MainActivity extends AppCompatActivity
                     jobsUrlData.add(4,jobs_al_copy.get(position).getPostingDate());
 
                     // sets up intent to open as WebView.
-                    Log.v("!myapp!", "opening activity");
                     mIntentWebViewActivity.setData(Uri.parse(curJobsItem.getDetailURL()));
                     mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
                             jobsUrlData);
@@ -347,8 +335,7 @@ public class MainActivity extends AppCompatActivity
         // no special query text.
         boolean hasInternetConnection= checkInternetConnectivity(context);
 
-        if (hasInternetConnection==true) {
-            Log.v("!myapp!", "yes, we have internet connection!!");
+        if (hasInternetConnection) {
 //            GetJSONResponse getJSONResponse = new GetJSONResponse(context, queryLookup);
 //            getJSONResponse.execute(null, null, null);
             //
@@ -361,16 +348,13 @@ public class MainActivity extends AppCompatActivity
         // Determines internet connectivity...if working, then display the data otherwise show internet error.
         // no special query text.
         boolean hasInternetConnection= NetworkStreaming.checkInternetConnection(context.getApplicationContext());
-        if (hasInternetConnection==false) {
-            Log.v("!myapp!", "no internet connection!!");
-
+        if (!hasInternetConnection) {
 //            progressBar.setVisibility(View.INVISIBLE);
-            txt_message.setText("No internet connection.");
+            txt_message.setText(R.string.noInternetConnection_msg);
             txt_message.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.INVISIBLE);
         }
         else {
-            Log.v("!myapp!", "yes, we have internet connection!!");
             txt_message.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
         }

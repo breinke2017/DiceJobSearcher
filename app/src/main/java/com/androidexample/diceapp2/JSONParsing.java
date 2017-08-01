@@ -4,8 +4,6 @@ package com.androidexample.diceapp2;
  * Created by brian.reinke on 6/22/2017.
  */
 
-import android.util.Log;
-
 import com.androidexample.diceapp2.genericContainers.Jobs;
 import com.androidexample.diceapp2.staticClasses.Api_Data;
 
@@ -65,10 +63,6 @@ public class JSONParsing {
                 JSONArray jobs_jsonArray = baseJsonResponse.getJSONArray("resultItemList");
 
                 // iterate over the list of JSON values.
-                Log.v("!myapp!", "firstDocument: " + Api_Data.mFirstDocument);
-                Log.v("!myapp!", "lastDocument: " + Api_Data.mLastDocument);
-                Log.v("!myapp!", "total number of records " + Api_Data.mCount);
-                Log.v("!myapp!", "JSON records per page: " + jobs_jsonArray.length());
                 for (int i = 0; i < jobs_jsonArray.length(); i++) {
                     JSONObject currentJobsObject = jobs_jsonArray.getJSONObject(i);
 
@@ -90,9 +84,7 @@ public class JSONParsing {
             // with the message from the exception.
 
             if (Api_Data.mCount==0) {
-                Log.v("!myapp!", "No pages to display for subject!");
             }
-            Log.e("!myapp!", "Problem parsing the Jobs JSON results", e);
         }
 
         // Return the list of jobs array

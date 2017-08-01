@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,8 +48,6 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
-        Log.v("!myapp!", "*** WebActivity created!");
-
         // Create findByViewIds...
         mWebView = (WebView) findViewById(R.id.webview);
         mTextView = (TextView) findViewById(R.id.webview_Text_WebPageProblem);
@@ -90,7 +87,6 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Log.v("!myapp!", "onDestroy() occurred!");
         super.onDestroy();
 
         // must detach webview.
@@ -130,7 +126,6 @@ public class WebViewActivity extends AppCompatActivity {
         // Without this, the website will load in the browser vs the webview widget.
         mWebView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                Log.v("!myapp!", "!!page finished loading!!");
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
 
@@ -256,7 +251,6 @@ public class WebViewActivity extends AppCompatActivity {
                 webPageBody=doc.toString();
             } catch (java.io.IOException ioException) {
                 Toast.makeText(getApplicationContext(),"Error when loading webpage!",Toast.LENGTH_SHORT);
-                Log.v("!myapp!", "Error occurred when loading webpage in doInBackground()");
             } finally {
 
             }
@@ -266,14 +260,10 @@ public class WebViewActivity extends AppCompatActivity {
 
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
-            Log.v("!myapp!", "progress: " + progress[0]);
         }
 
         protected void onPostExecute(Void result) {
-            Log.v("!myapp!", "\n!! Job listing opened completed !!");
-
             jobTitle = doc.title();
-            Log.v("!myappp!", "size of doc is: " + doc.toString().length());
 
 
 
@@ -303,9 +293,6 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView.getSettings().setJavaScriptEnabled(false); // enable javascript
 
         // Show the webpage in WebView.
-
-        Log.v("!myapp!", "webpage:\n" + WebViewActivity.webPageBody);
-        Log.v("!myapp!", "size of webpage: " + WebViewActivity.jobHtmlWebPage.length());
         mWebView.loadData(WebViewActivity.jobHtmlWebPage, "text/html", "UTF-8");
     }
 }

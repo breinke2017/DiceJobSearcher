@@ -8,7 +8,7 @@
         android:id="@+id/webview_Text_WebPageProblem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Job entry no longer exists on site."
+        android:text="@string/jobEntryNoLongerExists"
         android:textSize="30sp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"

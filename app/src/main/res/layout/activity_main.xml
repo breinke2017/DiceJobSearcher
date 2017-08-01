@@ -28,11 +28,10 @@
                 android:id="@+id/but_prevpage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Prev Page"
-                android:text="Prev Page"
+                android:hint="@string/prev_page"
+                android:text="@string/prev_page"
                 android:textSize="12sp"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/but_nextpage"
@@ -40,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:layout_alignParentRight="true"
-                android:hint="Next Page"
-                android:text="Next Page"
+                android:hint="@string/next_page"
+                android:text="@string/next_page"
                 android:visibility="invisible"
                 />
 

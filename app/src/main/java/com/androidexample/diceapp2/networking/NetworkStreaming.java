@@ -37,7 +37,6 @@ public class NetworkStreaming {
         try {
             urlString = new URL(url_string);
         } catch (MalformedURLException e) {
-            Log.v("!myapp", "some problem occcured while building the URL!!");
             e.printStackTrace();
         }
         return urlString;
@@ -127,10 +126,7 @@ public class NetworkStreaming {
 
         if (url == null) {
             // returns empty.
-            Log.v("!myapp!", "url == null for some odd reason");
             return jsonResponse;
-        } else {
-            Log.v("!myapp!", "url is good here");
         }
 
 
@@ -143,15 +139,9 @@ public class NetworkStreaming {
             urlConnection.connect();   // where it establishes the connection.
 
             if (urlConnection.getResponseCode() == 200) {
-                Log.v("!myapp!", "HTTP Connection Response code: " + urlConnection.getResponseCode());
-                Log.v("!myapp!", "HTTP Response mgr: " + urlConnection.getResponseMessage());
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
                 JsonResponseBuilder.append(jsonResponse);
-//                Log.v("!myapp!", "JSON response: " + jsonResponse);
-            }
-            else {
-                Log.v("!myapp!", "JSON response != >200: " + jsonResponse);
             }
 
             //TODO: Add response codes to inform the user.
@@ -160,7 +150,6 @@ public class NetworkStreaming {
             Log.e("!myapp!", "Some IO exception when creating the connection");
 
         } finally {
-            Log.v("!myapp!", "running finally portion of makeHttpRequest.");
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
