@@ -2,6 +2,7 @@ package com.androidexample.diceapp2;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.view.View;
  * Created by brian.reinke on 7/1/2017.
  */
 
-class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
     private ClickListener clicklistener;
     private GestureDetector gestureDetector;
@@ -20,20 +21,26 @@ class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
         this.clicklistener=clicklistener;
 
         gestureDetector=new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
+            // Gesture Detector has many events that get detected for you.
+
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
+                // must return true.
                 return true;
             }
 
             @Override
             public void onLongPress(MotionEvent e) {
-                View child=recycleView.findChildViewUnder(e.getX(),e.getY());
-                if(child!=null && clicklistener!=null){
-                    clicklistener.onLongClick(child,recycleView.getChildAdapterPosition(child));
-                }
+                Log.v("!myapp!", "\n\nlong press occurred!");
+
+//                View child=recycleView.findChildViewUnder(e.getX(),e.getY());
+//                if(child!=null && clicklistener!=null){
+//                    clicklistener.onLongClick(child,recycleView.getChildAdapterPosition(child));
+//                }
             }
         });
     }
+
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {

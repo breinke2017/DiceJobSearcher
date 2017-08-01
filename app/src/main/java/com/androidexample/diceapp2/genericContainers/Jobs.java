@@ -67,7 +67,7 @@ public class Jobs {
         return mDetailURL;
     }
 
-    public String getJobText() {
+    public String getJobTitle() {
         return mJobTitle;
     }
 

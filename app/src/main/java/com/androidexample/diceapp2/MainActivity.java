@@ -37,11 +37,14 @@ import java.util.List;
 
 
 
-//Todo: One very strange thing I see is that every 10 records does a weird thing where it changes data when you scroll up or down.
-//Todo: Records after 10 repeat in order.....The data underneath is correct but the widget text information is not!
-
-
 // Todo: Doesn't refresh or load when user rotates screen to landscape.
+
+/*
+* Todo: Use Jsoup to load in the webpage and put in a variable.  For some reason, when I did it,
+* it wasn't loading in all the HTML.  Therefore, it didn't appear correctly  in webview.  I could parse the html and take
+* out all the extra Dice-advertising.
+* */
+
 
 /*
 * Is the news app with AsyncTask Loader.
@@ -382,7 +385,7 @@ public class MainActivity extends AppCompatActivity
                     // Build an arrayList that will have needed information from List<Jobs>.
                     ArrayList<String> jobsUrlData = new ArrayList<>(4);
                     jobsUrlData.add(0,jobs_al_copy.get(position).getDetailURL());
-                    jobsUrlData.add(1,jobs_al_copy.get(position).getJobText());
+                    jobsUrlData.add(1,jobs_al_copy.get(position).getJobTitle());
                     jobsUrlData.add(2,jobs_al_copy.get(position).getCompany());
                     jobsUrlData.add(3,jobs_al_copy.get(position).getLocation());
                     jobsUrlData.add(4,jobs_al_copy.get(position).getPostingDate());
