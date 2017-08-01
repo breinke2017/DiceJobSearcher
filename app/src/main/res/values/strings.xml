@@ -9,11 +9,11 @@
     <string name="prev_page">Prev Page</string>
     <string name="next_page">Next Page</string>
     <string name="textSkillTitle">Skill/Title:</string>
-    <string name="text_SkillTitle">Skill/title</string>
+    <string name="text_SkillTitle">   Skill/title   </string>
     <string name="SearchesEntireJobAd">Searches entire job ad</string>
-    <string name="JobText">JobText</string>
+    <string name="JobText">     JobText     </string>
     <string name="Location1">Location: City/State or ZipCode</string>
-    <string name="Location2_hint">Location</string>
+    <string name="Location2_hint">     Location    </string>
     <string name="MaxAgeOfJobPosting">Max age of job posting (in days)</string>
     <string name="MaxAgeOfJobPosting_Hint">Max Age (in days)</string>
     <string name="jobEntryNoLongerExists">Job entry no longer exists on site.</string>

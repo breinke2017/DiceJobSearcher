@@ -23,7 +23,7 @@
             android:id="@+id/editText_edit_search_skill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/text_SkillTitle"/>
+            android:hint="    Skill/Text   "/>
     </LinearLayout>
 
     <LinearLayout
@@ -37,13 +37,14 @@
             android:layout_height="wrap_content"
             android:text="@string/SearchesEntireJobAd" />
 
+        <!-- Keep these EditText's a literal string, otherwise the spacing is not correct -->
         <EditText
             style="@style/EditTextTheme"
             android:inputType="text"
             android:id="@+id/editText_edit_search_jobText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/JobText" />
+            android:hint="     JobText     " />
     </LinearLayout>
 
     <LinearLayout
@@ -63,7 +64,7 @@
             android:id="@+id/editText_edit_search_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/Location2_hint" />
+            android:hint="     Location    " />
     </LinearLayout>
 
     <LinearLayout
