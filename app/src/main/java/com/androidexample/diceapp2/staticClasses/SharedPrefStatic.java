@@ -23,7 +23,10 @@ public class SharedPrefStatic {
 
     public static void buildUriQuery() {
         // setup our Uri query.
+
+        // This variable is very temporary.
         ArrayList<QueryURI> query_URI_AL = new ArrayList<>();
+
         if (!jobTextStr.contentEquals("")) {
             query_URI_AL.add(new QueryURI("text", jobTextStr));
         }

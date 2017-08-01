@@ -8,10 +8,11 @@
         app:showAsAction="ifRoom"
         android:title="menu">
         <menu >
-            <item
-                android:id="@+id/menu_item_savedsearches"
-                android:title="Saved Searches"
-                />
+            <!--TODO: implement this in a future version-->
+            <!--<item-->
+                <!--android:id="@+id/menu_item_savedsearches"-->
+                <!--android:title="Saved Searches"-->
+                <!--/>-->
             <item
                 android:id="@+id/menu_item_editsearches"
                 android:title="Edit Searches"
@@ -23,6 +24,7 @@
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_refresh_white_24dp"
         app:showAsAction="ifRoom"
-        android:title="">
+        android:title=""
+        android:visible="false">
     </item>
 </menu>

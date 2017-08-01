@@ -26,6 +26,7 @@ public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerVi
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+
         listItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.jobs_listitem, null);
         CustomViewHolder viewHolder = new CustomViewHolder(listItemView);
         return viewHolder;

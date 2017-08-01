@@ -77,9 +77,9 @@
         <RelativeLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_below="@+id/header_section"
             android:clickable="true"
             android:focusable="true"
-            android:layout_below="@+id/header_section"
             android:background="?android:attr/selectableItemBackground">
             >
 
@@ -87,11 +87,12 @@
                 android:id="@+id/recyclerviewWidget"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clickable="true"
                 android:scrollbars="vertical"
                 android:scrollbarSize="2dp"
-                android:scrollbarThumbVertical="@android:color/holo_red_light"
+                android:scrollbarThumbVertical="@color/colorAccent"
                 android:verticalScrollbarPosition="right"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="?android:attr/selectableItemBackground" />
 
             <!--<ListView-->

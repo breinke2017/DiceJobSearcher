@@ -54,7 +54,6 @@ public class WebViewActivity extends AppCompatActivity {
         // Create findByViewIds...
         mWebView = (WebView) findViewById(R.id.webview);
         mTextView = (TextView) findViewById(R.id.webview_Text_WebPageProblem);
-
         mProgressBar=(ProgressBar) findViewById(R.id.progressbar_webview);
 
         // Loads up WebView.
@@ -67,6 +66,9 @@ public class WebViewActivity extends AppCompatActivity {
 
         jobsUrlData = getIntent().getStringArrayListExtra(AppConstants.PutExtra_JobURLInfo);
         mWebUrl=jobsUrlData.get(0);
+
+        // set page title with jobtitle.
+        setTitle(jobsUrlData.get(1));
 
         // See also method jobWebPageLoaded for when job Posting completely opens.
         loadWebViewWidget(mWebUrl);
@@ -154,12 +156,15 @@ public class WebViewActivity extends AppCompatActivity {
         // inflate our menus.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_share_menu, menu);
-        inflater.inflate(R.menu.app_settings_menu, menu);
+
+       //todo: Enable this functionality later.
+//        inflater.inflate(R.menu.app_settings_menu, menu);
 
         // Also, setup other menu finditems.
-        menu_savedSearches = menu.findItem(R.id.menu_item_savedsearches);
         mShareMenuItem = menu.findItem(R.id.menu_share);
-        mSettingsAddToSavedMenuItem= menu.findItem(R.id.menu_settings_addtosaved);
+        //todo: Add these to future versions...not using saved items currently.
+//        mSettingsAddToSavedMenuItem= menu.findItem(R.id.menu_settings_addtosaved);
+        //        menu_savedSearches = menu.findItem(R.id.menu_item_savedsearches);
 
         return true;
     }

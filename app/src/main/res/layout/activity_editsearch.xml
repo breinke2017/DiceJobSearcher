@@ -6,39 +6,92 @@
     android:layout_margin="16dp"
     >
 
-    <EditText
-        style="@style/EditTextTheme"
-        android:inputType="text"
-        android:id="@+id/editText_edit_search_skill"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="      Skill/Title      "
-        />
+        android:orientation="horizontal"
+        >
 
-    <EditText
-        style="@style/EditTextTheme"
-        android:inputType="text"
-        android:id="@+id/editText_edit_search_jobText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="    JobText    "
-        />
+        <TextView
+            style="@style/TextTheme"
+            android:layout_height="wrap_content"
+            android:text="Skill/Title:"
+            />
 
-    <EditText
-        style="@style/EditTextTheme"
-        android:inputType="text"
-        android:id="@+id/editText_edit_search_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="      Location      "
-        />
+        <EditText
+            style="@style/EditTextTheme"
+            android:inputType="text"
+            android:id="@+id/editText_edit_search_skill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="          Skill/title             "
+            />
+    </LinearLayout>
 
-    <EditText
-        style="@style/EditTextTheme"
-        android:inputType="number"
-        android:id="@+id/editText_edit_search_age"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Max age of job posting (in days)"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            style="@style/TextTheme"
+            android:layout_height="wrap_content"
+            android:text="Searches entire job ad"
+            />
+
+        <EditText
+            style="@style/EditTextTheme"
+            android:inputType="text"
+            android:id="@+id/editText_edit_search_jobText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="          JobText             "
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            style="@style/TextTheme"
+            android:layout_height="wrap_content"
+            android:text="Location: City/State or ZipCode"
+            />
+
+        <EditText
+            style="@style/EditTextTheme"
+            android:inputType="text"
+            android:id="@+id/editText_edit_search_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="          Location             "
         />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            style="@style/TextTheme"
+            android:layout_height="wrap_content"
+            android:text="Max age of job posting (in days)"
+            />
+
+        <EditText
+            style="@style/EditTextTheme"
+            android:inputType="number"
+            android:id="@+id/editText_edit_search_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="   Max age (in days)   "
+            />
+    </LinearLayout>
 </LinearLayout>

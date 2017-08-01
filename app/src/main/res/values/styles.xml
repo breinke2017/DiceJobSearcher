@@ -9,9 +9,18 @@
     </style>
 
     <style name="EditTextTheme">
-        <item name="android:layout_gravity">center</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:imeOptions">actionDone</item>
         <item name="android:maxLines">1</item>
+        <item name="android:layout_weight">1</item>
     </style>
+
+    <style name="TextTheme">
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">200dp</item>
+    </style>
+
 </resources>

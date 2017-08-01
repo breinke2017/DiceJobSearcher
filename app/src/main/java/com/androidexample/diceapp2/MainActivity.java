@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     public static SharedPreferences sharedPref;
     private Intent mIntentWebViewActivity=null;
 
+
     // Widget variables to keep track of.
     private int savedSearchesCount=0;
     private MenuItem menu_savedSearches=null;
@@ -79,6 +80,9 @@ public class MainActivity extends AppCompatActivity
 
         Log.v("!myapp!", "*** Activity created occurred!");
 
+        setupFindByViewIDs();
+
+
         // setup click listeners.
         setupListeners();
 
@@ -89,6 +93,10 @@ public class MainActivity extends AppCompatActivity
         sharedPref=setupSharedPreferences(AppConstants.PREF_FILENAME);
         SharedPrefStatic.initialLoadNetworkData=true;
 
+    }
+
+    private void setupFindByViewIDs() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerviewWidget);
     }
 
 
@@ -145,8 +153,9 @@ public class MainActivity extends AppCompatActivity
 //        inflater.inflate(R.menu.app_settings_menu, menu);
 
         // Also, setup other menu finditems.
-        menu_savedSearches = menu.findItem(R.id.menu_item_savedsearches);
-        menu_refresh = menu.findItem(R.id.menu_refresh);
+        //todo: Implement these in future versions.  The refresh should be removed.
+//        menu_savedSearches = menu.findItem(R.id.menu_item_savedsearches);
+//        menu_refresh = menu.findItem(R.id.menu_refresh);
 
         return true;
     }
@@ -312,17 +321,16 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        });
 
-        setupRecyclerViewListeners(jobs_al);
-    }
-
-    private void setupRecyclerViewListeners(List<Jobs> jobs_al) {
-
-        boolean hitZeroRecords = false;
-        final List<Jobs> jobs_al_copy = jobs_al;
 
         // Loads the data into the recyclerview and displays it.
         RecyclerView.Adapter adapter = setupRecyclerViewAdapter(MainActivity.jobs_AL);
 
+        // creates a new OnItemtouchListener and
+        setupRecyclerViewListeners(adapter, MainActivity.jobs_AL);
+    }
+
+    private void setupRecyclerListener(List<Jobs> jobs_al) {
+        final List<Jobs> jobs_al_copy = jobs_al;
 
         //todo: We shouldn't be recreating this listener over and over and over!
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
@@ -368,6 +376,64 @@ public class MainActivity extends AppCompatActivity
                 // Add your onLongClick() code here.
             }
         }));
+
+    }
+
+    private void setupRecyclerViewListeners(RecyclerView.Adapter adapter, List<Jobs> jobs_al) {
+
+        boolean hitZeroRecords = false;
+
+        final List<Jobs> jobs_al_copy = jobs_al;
+
+        //todo: I tried taking this out and for whatever reason it won't work.  The onclick fails.
+        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
+                mRecyclerView, new ClickListener() {
+
+            @Override
+            public void onClick(View view, final int position) {
+                // Add your onClick() code here.
+
+                // For some odd reason, when I do a click, it's hitting this multiple times.
+                Log.v("!myapp!", "onClick occurred at position " + position);
+
+
+                // Get information from our arraylist regarding this position.
+                Jobs curJobsItem = jobs_al_copy.get(position);
+                //    String webURL = curJobsItem.getDetailURL();
+
+                //                // sets up intent to open as webbrowser.
+                //                Intent i = new Intent();
+                //                i.setAction(Intent.ACTION_VIEW);
+                //                i.addCategory(Intent.CATEGORY_BROWSABLE);
+                //                i.setData(Uri.parse(webURL));
+                //                startActivity(i);
+
+                // Build an arrayList that will have needed information from List<Jobs>.
+                ArrayList<String> jobsUrlData = new ArrayList<>(4);
+                jobsUrlData.add(0,jobs_al_copy.get(position).getDetailURL());
+                jobsUrlData.add(1,jobs_al_copy.get(position).getJobText());
+                jobsUrlData.add(2,jobs_al_copy.get(position).getCompany());
+                jobsUrlData.add(3,jobs_al_copy.get(position).getLocation());
+                jobsUrlData.add(4,jobs_al_copy.get(position).getPostingDate());
+
+                // sets up intent to open as WebView.
+                Log.v("!myapp!", "opening activity");
+                mIntentWebViewActivity.setData(Uri.parse(curJobsItem.getDetailURL()));
+                mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
+                        jobsUrlData);
+                startActivity(mIntentWebViewActivity);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                // Add your onLongClick() code here.
+            }
+        }));
+
+
+
+
+
 
 
 
@@ -447,10 +513,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private RecyclerView.Adapter setupRecyclerViewAdapter(List<Jobs> jobs_al) {
-        // Setup up the RecyclerView Adapter
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerviewWidget);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         JobsRecyclerViewAdapter adapter = new JobsRecyclerViewAdapter(jobs_al);
         mRecyclerView.setAdapter(adapter);
         return adapter;
@@ -480,15 +543,7 @@ public class MainActivity extends AppCompatActivity
 //        });
 
 
-
-
-
-
-
-
-
-
-
+//        setupRecyclerListener(MainActivity.jobs_AL);
     }
 
 
