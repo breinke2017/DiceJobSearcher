@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:id="@+id/ll_main"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground">
+    tools:context="com.androidexample.project7_newsapp.MainActivity"
+    >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/header_section">
+
+            <!--<EditText-->
+                <!--android:id="@+id/et_query"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:inputType="text"-->
+                <!--android:imeOptions="actionDone"-->
+                <!--android:maxLines="1"-->
+                <!--android:hint="Enter subject to narrow down the results"-->
+                <!--/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/but_queryOk"-->
+                <!--android:text="Submit Query"-->
+                <!--android:layout_below="@+id/et_query"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--&gt;-->
+                <!---->
+            <!--</Button>-->
+
+            <Button
+                android:id="@+id/but_prevpage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Prev Page"
+                android:text="Prev Page"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                />
+
+            <Button
+                android:id="@+id/but_nextpage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_alignParentRight="true"
+                android:hint="Next Page"
+                android:text="Next Page"
+                android:visibility="invisible"
+                />
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:visibility="invisible"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_below="@+id/header_section"
+            android:background="?android:attr/selectableItemBackground">
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerviewWidget"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:scrollbars="vertical"
+                android:scrollbarSize="2dp"
+                android:scrollbarThumbVertical="@android:color/holo_red_light"
+                android:verticalScrollbarPosition="right"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <!--<ListView-->
+            <!--android:id="@+id/lv_listview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <!--</ListView>-->
+        </RelativeLayout>
+    </RelativeLayout>
+
+</FrameLayout>

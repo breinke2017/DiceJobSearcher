@@ -1,0 +1,21 @@
+<!-- share option to send results to text/email -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_share_white_24dp"
+        app:showAsAction="ifRoom"
+        android:title="menu">
+        <menu >
+            <item
+                android:id="@+id/menu_share_text"
+                android:icon="@drawable/ic_textsms_black_24dp"
+                android:title="Text"/>
+            <item
+                android:id="@+id/menu_share_email"
+                android:icon="@drawable/ic_email_black_24dp"
+                android:title="Email"/>
+        </menu>
+    </item>
+</menu>

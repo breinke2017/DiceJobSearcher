@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    >
+
+    <EditText
+        style="@style/EditTextTheme"
+        android:inputType="text"
+        android:id="@+id/editText_edit_search_skill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="      Skill/Title      "
+        />
+
+    <EditText
+        style="@style/EditTextTheme"
+        android:inputType="text"
+        android:id="@+id/editText_edit_search_jobText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="    JobText    "
+        />
+
+    <EditText
+        style="@style/EditTextTheme"
+        android:inputType="text"
+        android:id="@+id/editText_edit_search_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="      Location      "
+        />
+
+    <EditText
+        style="@style/EditTextTheme"
+        android:inputType="number"
+        android:id="@+id/editText_edit_search_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Max age of job posting (in days)"
+        />
+</LinearLayout>
