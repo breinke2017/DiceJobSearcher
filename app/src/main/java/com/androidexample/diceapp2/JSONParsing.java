@@ -81,8 +81,7 @@ public class JSONParsing {
                     date = currentJobsObject.getString("date");
 
                     // Adds the records to the book ArrayList
-                    jobsAL.add(new Jobs(Api_Data.mCount, Api_Data.mFirstDocument, Api_Data.mLastDocument, detailUrl,
-                            location, date, company, jobTitle));
+                    jobsAL.add(new Jobs(detailUrl, location, date, company, jobTitle));
                 }
             }
         } catch (JSONException e) {

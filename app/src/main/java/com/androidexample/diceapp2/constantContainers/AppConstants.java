@@ -5,7 +5,6 @@ package com.androidexample.diceapp2.constantContainers;
  */
 
 public class AppConstants {
-    public static final String JobWebUrl="JobWebURL";
     public static final String PutExtra_JobURLInfo="EXTRA_JOBWEBURL";
 
     // Preference filename

@@ -11,17 +11,8 @@ package com.androidexample.diceapp2.genericContainers;
 * */
 
 public class Jobs {
-    // Total records in query.
-    private int mCount;
-
-    // the current page as shown in the URL.  Is more for convienience.
-    private int mCurrentPage;
-
-    // The first document record on page.
-    private int mFirstDocument;
-
-    // The last document record on page.
-    private int mLastDocument;
+    // Total records in query.mCount
+    // Moved non-recurring items to API_Data (mCount, mFirstDocument, mLastDocument, and mCurrentPage)
 
     // URL of job posting.
     private String mDetailURL;
@@ -39,28 +30,12 @@ public class Jobs {
     private String mCompany;
 
 
-    public Jobs(int currentPage, int firstDocument, int lastDocument, String detailURL,
-                String location, String postingDate, String company, String jobTitle) {
-        this.mCurrentPage=currentPage;
-        this.mFirstDocument=firstDocument;
-        this.mLastDocument=lastDocument;
+    public Jobs(String detailURL, String location, String postingDate, String company, String jobTitle) {
         this.mDetailURL=detailURL;
         this.mLocation=location;
         this.mCompany=company;
         this.mPostingDate=postingDate;
         this.mJobTitle=jobTitle;
-    }
-
-    public int getCount() {
-        return mCount;
-    }
-
-    public int getCurrentPage() {
-        return mCurrentPage;
-    }
-
-    public int getFirstDocument() {
-        return mFirstDocument;
     }
 
     public String getDetailURL() {
