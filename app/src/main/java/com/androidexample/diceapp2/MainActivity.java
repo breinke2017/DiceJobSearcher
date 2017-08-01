@@ -1,28 +1,21 @@
 package com.androidexample.diceapp2;
 
-import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -59,9 +52,6 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView mRecyclerView;
     public static List<Jobs> jobs_AL = new ArrayList<>();
-    private ListView searchQueryListView;
-    private Dialog dialog;
-    private List<String> searchArrayList = new ArrayList<>();
     public static SharedPreferences sharedPref;
     private Intent mIntentWebViewActivity=null;
 
@@ -119,10 +109,6 @@ public class MainActivity extends AppCompatActivity
             SharedPrefStatic.initialLoadNetworkData=false;
             SharedPrefStatic.editIntentLoaded=false;
             SharedPrefStatic.editIntentSaved=false;
-
-            // everything gets run by triggerOurQuery() then by onLoadFinished()!
-//            //  runNetworkQuery(MainActivity.this);
-//            RecyclerView.Adapter adapter=setupRecyclerViewAdapter(MainActivity.jobs_AL);
         }
     }
 
@@ -193,68 +179,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /*
-    * Shows the Editor to save/make changes to the query search parameters.
-    * */
-    private void showEditSearchesLayout(int layoutResId, Context context) {
-        Log.v("!myapp!", "user clicked menu edit searches");
-
-        View inflater = LayoutInflater.from(context).inflate(layoutResId, null);
-
-    }
-
-
-    /*
-    * Shows SearchLayout when user clicks on the search menu action item.
-      * Should eventually be a fragment.
-      *
-      * !! currently not used!!!
-    * */
-    private void showSearchLayout(final Context context) {
-        Log.v("!myapp!", "user pressed action item");
-
-        dialog = new Dialog(context);
-        dialog.setContentView(R.layout.activity_searchquery);
-        searchQueryListView = (ListView) dialog.findViewById(R.id.search_ListView);
-
-        ArrayAdapter<String> adapter=
-                new ArrayAdapter<String>(searchQueryListView.getContext(),
-                        android.R.layout.simple_list_item_1, searchArrayList) {
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView textView = (TextView) super.getView(position, convertView, parent);
-                        textView.setTextColor(Color.BLACK);
-
-                        return textView;
-                    }
-                };
-        searchQueryListView.setAdapter(adapter);
-        setSearchQueryListViewListener(searchQueryListView);
-        dialog.setTitle("Quick Query: Pick an item to search.");
-        dialog.show();
-    }
-
-    /*
-    * Sets up listener for SearchQueryListView which only happens when user presses ActionItem.
-    * Here is where we will populate the dialog list.
-    * */
-    private void setSearchQueryListViewListener(final ListView searchQueryListView) {
-        searchQueryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Whatever text we selected will populate on the editText.
-//                populateQueryPrefs(ADDPREF_ACTION.LOADFROMACTIONMENU, null, (String) searchQueryListView.getItemAtPosition(position));
-
-                // We clicked on the SearchQueryListView...close the ActionMenu.
-                dialog.dismiss();
-
-                // Do the Submit Button Query actions so it does an automatic search for the user.
-                triggerOurQuery();
-            }
-        });
-    }
-
-
     @Override
     public Loader<List<Jobs>> onCreateLoader(int id, final Bundle args) {
         //Here we will initiate AsyncTaskLoader
@@ -294,55 +218,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Runs on each load finished, and runs after the close of every intent.
-
-//        /*
-//        * TextView txt_multipurpose actually serves two purposes: Either one or the other:
-//        *    * if records, displays page #s
-//        *    * if no records, displays 'no internet found', or 'no news items...'
-//        * */
-//        TextView txt_multipurpose = (TextView) this.findViewById(R.id.txt_multipurpose);
-
-
-//        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-//            @Override
-//            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-//                int action = MotionEventCompat.getActionMasked(e);
-//
-//                switch(action) {
-//                    case (MotionEvent.ACTION_DOWN) :
-//                        Log.v("!myapp!","Action was DOWN");
-//
-//                        // Get information from our arraylist regarding this position.
-//                        News curNewsItem = news_al_copy.get(position);
-//                        String webURL = curNewsItem.getWebURL();
-//
-//                        // sets up intent to open as webbrowser.
-//                        Intent i = new Intent();
-//                        i.setAction(Intent.ACTION_VIEW);
-//                        i.addCategory(Intent.CATEGORY_BROWSABLE);
-//                        i.setData(Uri.parse(webURL));
-//                        startActivity(i);
-//
-//
-////                    default :
-////                        return super.onTouchEvent(event);
-//                }
-//
-//
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-//            }
-//
-//            @Override
-//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-//
-//            }
-//        });
-
 
         // Loads the data into the recyclerview and displays it.
         RecyclerView.Adapter adapter = setupRecyclerViewAdapter(MainActivity.jobs_AL);
@@ -407,8 +282,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
         // determine if adapter (recyclerview) has objects or not.
         if (adapter.getItemCount() == 0) {
             hitZeroRecords = true;
@@ -418,30 +291,6 @@ public class MainActivity extends AppCompatActivity
         // display pages.
         ProgressBar progressBar = (ProgressBar) this.findViewById(R.id.progressbar);
         progressBar.setVisibility(View.INVISIBLE);
-
-
-        // Setup our Click Listeners
-        // ------------------------
-        // When the user clicks on the article, it should go to the website.
-        final List<Jobs> jobs_copy_al=jobs_al;
-
-//        mRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                News curNewsItem = news_copy_al.get(position);
-//                String webURL = curNewsItem.getWebURL();
-//
-//                // sets up intent to open as webbrowser.
-//                Intent i = new Intent();
-//                i.setAction(Intent.ACTION_VIEW);
-//                i.addCategory(Intent.CATEGORY_BROWSABLE);
-//                i.setData(Uri.parse(webURL));
-//                startActivity(i);
-//            }
-//        });
-
-
-
     }
 
 
@@ -487,19 +336,6 @@ public class MainActivity extends AppCompatActivity
     * */
     public void triggerOurQuery() {
         runNetworkQuery(MainActivity.this);
-    }
-
-
-
-    /*
-    * Populates populateSearchArrayList which will save to the Preferences.
-    * */
-    private void populateSearchArrayList(String queryValueToAdd) {
-        // Adds this.queryLookup to searchArrayList should it not exist.
-        if (!searchArrayList.contains(queryValueToAdd)) {
-            // Not found...add to searchArrayList.
-            searchArrayList.add(queryValueToAdd);
-        }
     }
 
 

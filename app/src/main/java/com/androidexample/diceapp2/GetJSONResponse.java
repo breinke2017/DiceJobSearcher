@@ -30,12 +30,12 @@ public class GetJSONResponse extends AsyncTaskLoader<List<Jobs>> {
     private URL myURLURL = null;
     private String myURLString = null;
     public String JSONResponse = null;
-    private Context mainContext = null;
+//    private Context mainContext = null;
 
 
     public GetJSONResponse(Context context) {
         super(context);
-        this.mainContext = context;
+//        this.mainContext = context;
     }
 
     // URL API that we will be pulling down...
