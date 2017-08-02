@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,6 +50,8 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
 
         // Create findByViewIds...
+        Log.v("!myapp!","webviewActivity has been created **");
+
         mWebView = (WebView) findViewById(R.id.webview);
         mTextView = (TextView) findViewById(R.id.webview_Text_WebPageProblem);
         mProgressBar=(ProgressBar) findViewById(R.id.progressbar_webview);
@@ -74,15 +77,22 @@ public class WebViewActivity extends AppCompatActivity {
 //        new LoadWebView().execute();
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//
-//        Log.v("!myapp!", "onstop() occurred!");
-//
-//        // unload all this data.
-//        mWebView=null;
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.v("!myapp!", "Webview is starting");
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.v("!myapp!", "onstop() occurred!");
+
+        // unload all this data.
+        mWebView=null;
+    }
 
 
     @Override
@@ -103,10 +113,9 @@ public class WebViewActivity extends AppCompatActivity {
 
             // NOTE: This can occasionally cause a segfault below API 17 (4.2)
             mWebView.destroy();
-
-            // Null out the reference so that you don't end up re-using it.
-            mWebView = null;
         }
+        // Null out the reference so that you don't end up re-using it.
+        mWebView = null;
     }
 
 

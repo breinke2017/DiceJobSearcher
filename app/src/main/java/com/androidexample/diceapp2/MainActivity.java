@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,6 +38,8 @@ import java.util.List;
 * out all the extra Dice-advertising.
 * */
 
+//ToDo: If you click NextPage too fast, empty views show up.
+
 
 /*
 * Is the news app with AsyncTask Loader.
@@ -52,7 +55,6 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     public static List<Jobs> jobs_AL = new ArrayList<>();
     public static SharedPreferences sharedPref;
-    private Intent mIntentWebViewActivity=null;
 
     private Button but_prevpage;
     private Button but_nextpage;
@@ -73,9 +75,6 @@ public class MainActivity extends AppCompatActivity
 
         // setup click listeners.
         setupListeners();
-
-        // sets up other items...don't want to keep creating new objects unneccarily.
-        mIntentWebViewActivity = new Intent(this, WebViewActivity.class);
         Api_Data.mCurrentPage=1;
 
         // load SharedPreferences
@@ -96,6 +95,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+        Log.v("!myapp!", "** MainActivity started **");
 
         // verified.
         if (SharedPrefStatic.initialLoadNetworkData==true || (SharedPrefStatic.editIntentLoaded==true && SharedPrefStatic.editIntentSaved==true)) {
@@ -255,6 +256,9 @@ public class MainActivity extends AppCompatActivity
                     jobsUrlData.add(4,jobs_al_copy.get(position).getPostingDate());
 
                     // sets up intent to open as WebView.
+                    // loads up webview to see the data.
+                    Intent mIntentWebViewActivity;
+                    mIntentWebViewActivity = new Intent(MainActivity.this, WebViewActivity.class);
                     mIntentWebViewActivity.setData(Uri.parse(curJobsItem.getDetailURL()));
                     mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
                             jobsUrlData);
