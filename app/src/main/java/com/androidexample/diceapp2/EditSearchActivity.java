@@ -3,7 +3,6 @@ package com.androidexample.diceapp2;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,11 +19,6 @@ public class EditSearchActivity extends AppCompatActivity {
     private EditText editTextSkill;
     private EditText editTextLocation;
     private EditText editTextAge;
-
-    private String original_jobTextStr ="";
-    private String original_jobSkillStr="";
-    private String original_jobLocationStr="";
-    private String original_jobAgeStr="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +37,10 @@ public class EditSearchActivity extends AppCompatActivity {
 
     private void getInitialValues() {
         // Load Widgets with Data already retrieved from Main Activity.
-        original_jobTextStr=SharedPrefStatic.jobTextStr;
-        original_jobSkillStr=SharedPrefStatic.jobSkillStr;
-        original_jobLocationStr=SharedPrefStatic.jobLocationStr;
-        original_jobAgeStr=SharedPrefStatic.jobAgeStr;
-
-        editTextJobText.setText(original_jobTextStr);
-        editTextSkill.setText(original_jobSkillStr);
-        editTextLocation.setText(original_jobLocationStr);
-        editTextAge.setText(original_jobAgeStr);
+        editTextJobText.setText(SharedPrefStatic.jobTextStr);
+        editTextSkill.setText(SharedPrefStatic.jobSkillStr);
+        editTextLocation.setText(SharedPrefStatic.jobLocationStr);
+        editTextAge.setText(SharedPrefStatic.jobAgeStr);
     }
 
     private void setupListeners() {
@@ -96,16 +85,12 @@ public class EditSearchActivity extends AppCompatActivity {
 
     protected void onDestroy() {
         super.onDestroy();
-
-        // clear out some variables.
-//        editSearchSet=null;
     }
 
 
     public void onBackPressed() {
-        Log.v("!myapp!", "on back pressed!");
-        boolean valuesWereChanged=settingChangedValues(this.original_jobTextStr, this.original_jobSkillStr, this.original_jobLocationStr,
-                this.original_jobAgeStr);
+        boolean valuesWereChanged=settingChangedValues(SharedPrefStatic.jobTextStr, SharedPrefStatic.jobSkillStr,
+                SharedPrefStatic.jobLocationStr, SharedPrefStatic.jobAgeStr);
         if (valuesWereChanged) {
             savePreferences();
         }
