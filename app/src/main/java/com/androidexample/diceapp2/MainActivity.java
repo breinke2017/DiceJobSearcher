@@ -58,11 +58,22 @@ public class MainActivity extends AppCompatActivity
 
     private Button but_prevpage;
     private Button but_nextpage;
-    private TextView txt_message;
+    private TextView txt_RecyclerViewMessage;
 
     // Widget variables to keep track of.
     private MenuItem menu_savedSearches=null;
     private MenuItem menu_refresh=null;
+
+
+    /*
+    * Reset RecyclerView onClick counters.  Because I'm hitting next page, it triggers a
+      * reload of data.  Each time this occurs, a new RecyclerView listener is created.  This
+      * causes a problem because it then triggers onClick() numerous extra times.
+    * */
+    private int recyclerViewClickCounts;
+    private int recyclerViewListenerCounter =0;
+    private boolean ignoreRecyclerViewClickEvent;
+    // -------------------------------------------------------
 
 
     @Override
@@ -81,13 +92,20 @@ public class MainActivity extends AppCompatActivity
         sharedPref=setupSharedPreferences(AppConstants.PREF_FILENAME);
         SharedPrefStatic.initialLoadNetworkData=true;
 
+        /*
+        * Reset RecyclerView onClick counters.  Because I'm hitting next page, it triggers a
+          * reload of data.  Each time this occurs, a new RecyclerView listener is created.  This
+          * causes a problem because it then triggers onClick() numerous extra times.
+        * */
+        resetRecyclerViewOnClickCounters();
     }
 
     private void setupFindByViewIDs() {
         but_prevpage = (Button) findViewById(R.id.but_prevpage);
         but_nextpage = (Button) findViewById(R.id.but_nextpage);
-        txt_message=(TextView) findViewById(R.id.txt_message);
 
+
+        txt_RecyclerViewMessage =(TextView) findViewById(R.id.txt_RecyclerViewMessage);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerviewWidget);
     }
 
@@ -211,14 +229,16 @@ public class MainActivity extends AppCompatActivity
         // Runs on each load finished, and runs after the close of every intent.
 
         // Loads the data into the recyclerview and displays it.
-        RecyclerView.Adapter adapter = setupRecyclerViewAdapter(MainActivity.jobs_AL);
 
-        // creates a new OnItemtouchListener and
-        setupRecyclerViewListeners(adapter, MainActivity.jobs_AL);
+            RecyclerView.Adapter adapter = setupRecyclerViewAdapter(MainActivity.jobs_AL);
+
+            // creates a new OnItemtouchListener for RecyclerView.
+            setupRecyclerViewListeners(adapter, MainActivity.jobs_AL);
     }
 
     private void setupRecyclerViewListeners(RecyclerView.Adapter adapter, List<Jobs> jobs_al) {
 
+        recyclerViewListenerCounter++;
         boolean hitZeroRecords = false;
 
         final List<Jobs> jobs_al_copy = jobs_al;
@@ -231,38 +251,52 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view, final int position) {
                 // Add your onClick() code here.
 
+                recyclerViewClickCounts++;
+                if (recyclerViewListenerCounter - recyclerViewClickCounts == 0) ignoreRecyclerViewClickEvent =false;
+
                 // Determines internet connectivity...if working, then display the data otherwise show internet error.
                 // no special query text.
-                boolean hasInternetConnection=checkInternetConnectivity(MainActivity.this);
-                if (hasInternetConnection) {
+                if (!ignoreRecyclerViewClickEvent){
+                    boolean hasInternetConnection=checkInternetConnectivity(MainActivity.this);
+                    if (hasInternetConnection) {
 
-                    // Get information from our arraylist regarding this position.
-                    Jobs curJobsItem = jobs_al_copy.get(position);
-                    //    String webURL = curJobsItem.getDetailURL();
+                        // Get information from our arraylist regarding this position.
+                        Jobs curJobsItem = jobs_al_copy.get(position);
+                        //    String webURL = curJobsItem.getDetailURL();
 
-                    //                // sets up intent to open as webbrowser.
-                    //                Intent i = new Intent();
-                    //                i.setAction(Intent.ACTION_VIEW);
-                    //                i.addCategory(Intent.CATEGORY_BROWSABLE);
-                    //                i.setData(Uri.parse(webURL));
-                    //                startActivity(i);
+                        //                // sets up intent to open as webbrowser.
+                        //                Intent i = new Intent();
+                        //                i.setAction(Intent.ACTION_VIEW);
+                        //                i.addCategory(Intent.CATEGORY_BROWSABLE);
+                        //                i.setData(Uri.parse(webURL));
+                        //                startActivity(i);
 
-                    // Build an arrayList that will have needed information from List<Jobs>.
-                    ArrayList<String> jobsUrlData = new ArrayList<>(4);
-                    jobsUrlData.add(0,jobs_al_copy.get(position).getDetailURL());
-                    jobsUrlData.add(1,jobs_al_copy.get(position).getJobTitle());
-                    jobsUrlData.add(2,jobs_al_copy.get(position).getCompany());
-                    jobsUrlData.add(3,jobs_al_copy.get(position).getLocation());
-                    jobsUrlData.add(4,jobs_al_copy.get(position).getPostingDate());
+                        // Build an arrayList that will have needed information from List<Jobs>.
+                        ArrayList<String> jobsUrlData = new ArrayList<>(4);
+                        jobsUrlData.add(0, jobs_al_copy.get(position).getDetailURL());
+                        jobsUrlData.add(1, jobs_al_copy.get(position).getJobTitle());
+                        jobsUrlData.add(2, jobs_al_copy.get(position).getCompany());
+                        jobsUrlData.add(3, jobs_al_copy.get(position).getLocation());
+                        jobsUrlData.add(4, jobs_al_copy.get(position).getPostingDate());
 
-                    // sets up intent to open as WebView.
-                    // loads up webview to see the data.
-                    Intent mIntentWebViewActivity;
-                    mIntentWebViewActivity = new Intent(MainActivity.this, WebViewActivity.class);
-                    mIntentWebViewActivity.setData(Uri.parse(curJobsItem.getDetailURL()));
-                    mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
-                            jobsUrlData);
-                    startActivity(mIntentWebViewActivity);
+
+
+                        // sets up intent to open as WebView.
+                        // loads up webview to see the data.
+                        Intent mIntentWebViewActivity;
+                        mIntentWebViewActivity = new Intent(MainActivity.this, WebViewActivity.class);
+                        mIntentWebViewActivity.setData(Uri.parse(curJobsItem.getDetailURL()));
+                        mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
+                                jobsUrlData);
+                        startActivity(mIntentWebViewActivity);
+
+                        /*
+                        * Reset RecyclerView onClick counters.  Because I'm hitting next page, it triggers a
+                          * reload of data.  Each time this occurs, a new RecyclerView listener is created.  This
+                          * causes a problem because it then triggers onClick() numerous extra times.
+                        * */
+                        resetRecyclerViewOnClickCounters();
+                 }
                 }
             }
 
@@ -273,11 +307,18 @@ public class MainActivity extends AppCompatActivity
         }));
 
 
-
         // determine if adapter (recyclerview) has objects or not.
         if (adapter.getItemCount() == 0) {
+            // No records to show.
+            txt_RecyclerViewMessage.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.INVISIBLE);
+
             hitZeroRecords = true;
 //            mRecyclerView.setEmptyView(txt_multipurpose);
+        }
+        else {
+            txt_RecyclerViewMessage.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
         }
 
         // display pages.
@@ -285,6 +326,16 @@ public class MainActivity extends AppCompatActivity
         progressBar.setVisibility(View.INVISIBLE);
     }
 
+
+    /*
+    * Reset RecyclerView onClick counters.  Because I'm hitting next page, it triggers a
+      * reload of data.  Each time this occurs, a new RecyclerView listener is created.  This
+      * causes a problem because it then triggers onClick() numerous extra times.
+    * */
+    private void resetRecyclerViewOnClickCounters() {
+        ignoreRecyclerViewClickEvent =true;
+        recyclerViewClickCounts =0;
+    }
 
 
     private RecyclerView.Adapter setupRecyclerViewAdapter(List<Jobs> jobs_al) {
@@ -306,6 +357,9 @@ public class MainActivity extends AppCompatActivity
                 Api_Data.mCurrentPage -= 1;
 
                 SharedPrefStatic.buildUriQuery();
+
+                getLoaderManager().destroyLoader(0);
+
                 runNetworkQuery(MainActivity.this);
             }
         });
@@ -315,9 +369,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Api_Data.mCurrentPage += 1;
+//                recyclerViewClickCounts++;
 
                 SharedPrefStatic.buildUriQuery();
+
+                getLoaderManager().destroyLoader(0);
+
                 runNetworkQuery(MainActivity.this);
+
             }
         });
     }
@@ -354,12 +413,12 @@ public class MainActivity extends AppCompatActivity
         boolean hasInternetConnection= NetworkStreaming.checkInternetConnection(context.getApplicationContext());
         if (!hasInternetConnection) {
 //            progressBar.setVisibility(View.INVISIBLE);
-            txt_message.setText(R.string.noInternetConnection_msg);
-            txt_message.setVisibility(View.VISIBLE);
+            txt_RecyclerViewMessage.setText(R.string.noInternetConnection_msg);
+            txt_RecyclerViewMessage.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.INVISIBLE);
         }
         else {
-            txt_message.setVisibility(View.INVISIBLE);
+            txt_RecyclerViewMessage.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
         }
         return hasInternetConnection;

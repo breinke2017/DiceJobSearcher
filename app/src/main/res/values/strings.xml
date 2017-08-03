@@ -23,4 +23,5 @@
     <string name="menu_ShareEmail">Email</string>
     <string name="noInternetConnection_msg">No internet connection.</string>
     <string name="noRecordsFound_msg">No records are found for query.</string>
+    <string name="noRecordstoDisplayforQuery">No records to display for query.</string>
 </resources>

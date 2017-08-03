@@ -63,10 +63,11 @@
             >
 
             <TextView
-                android:id="@+id/txt_message"
+                android:id="@+id/txt_RecyclerViewMessage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:text="@string/noRecordstoDisplayforQuery"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 />
