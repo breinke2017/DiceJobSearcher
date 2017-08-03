@@ -52,6 +52,6 @@ public class SharedPrefStatic {
             query_URI=query_URI_AL;
         }
 
-        query_URI_AL=null;
+//        query_URI_AL=null;
     }
 }

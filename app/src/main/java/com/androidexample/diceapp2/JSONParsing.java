@@ -66,7 +66,7 @@ public class JSONParsing {
                 for (int i = 0; i < jobs_jsonArray.length(); i++) {
                     JSONObject currentJobsObject = jobs_jsonArray.getJSONObject(i);
 
-                    String detailUrl,jobTitle,company,location,date="";
+                    String detailUrl,jobTitle,company,location,date;
 
                     detailUrl = currentJobsObject.getString("detailUrl");
                     jobTitle = currentJobsObject.getString("jobTitle");

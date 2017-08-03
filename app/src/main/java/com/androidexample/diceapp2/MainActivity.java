@@ -54,12 +54,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Jobs>> {
 
-    // Is used in getJSONReponse because no other way to get this info.
-    public static String queryLookup="";
-
     private RecyclerView mRecyclerView;
     public static List<Jobs> jobs_AL = new ArrayList<>();
-    public static SharedPreferences sharedPref;
 
     private Button but_prevpage;
     private Button but_nextpage;
@@ -94,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         setupListeners();
 
         // load SharedPreferences
-        sharedPref=setupSharedPreferences(AppConstants.PREF_FILENAME);
+        setupSharedPreferences(AppConstants.PREF_FILENAME);
         SharedPrefStatic.initialLoadNetworkData=true;
 
         /*
@@ -187,8 +183,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
                 return true;
             case R.id.menu_refresh:
-//                //re-check internet connection
-                boolean hasInternetConnection= checkInternetConnectivity(MainActivity.this.getApplicationContext());
                 return true;
 
 //                return true;
@@ -211,7 +205,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<List<Jobs>> loader) {
-        loader = null;
+//        loader = null;
     }
 
 
@@ -248,7 +242,6 @@ public class MainActivity extends AppCompatActivity
     private void setupRecyclerViewListeners(RecyclerView.Adapter adapter, List<Jobs> jobs_al) {
 
         recyclerViewListenerCounter++;
-        boolean hitZeroRecords = false;
 
         final List<Jobs> jobs_al_copy = jobs_al;
 
@@ -322,7 +315,6 @@ public class MainActivity extends AppCompatActivity
             txt_RecyclerViewMessage.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.INVISIBLE);
 
-            hitZeroRecords = true;
 //            mRecyclerView.setEmptyView(txt_multipurpose);
         }
         else {
@@ -442,7 +434,7 @@ public class MainActivity extends AppCompatActivity
 *   1) Most recent query value.
 *   2) Set that we'll read in from .getStringSet() --> Is what we will implement now.
 * */
-    private SharedPreferences setupSharedPreferences(String prefFileName) {
+    private void setupSharedPreferences(String prefFileName) {
         // Get Shared Preferences.
         SharedPreferences sharedPreferences_ob;
 
@@ -456,6 +448,6 @@ public class MainActivity extends AppCompatActivity
         // initial load.
         SharedPrefStatic.buildUriQuery();
 
-        return sharedPreferences_ob;
+//        return sharedPreferences_ob;
     }
 }

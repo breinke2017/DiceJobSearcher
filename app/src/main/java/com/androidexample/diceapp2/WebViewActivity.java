@@ -2,7 +2,6 @@ package com.androidexample.diceapp2;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidexample.diceapp2.constantContainers.AppConstants;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
@@ -178,8 +174,8 @@ public class WebViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_settings_addtosaved:
-                return true;
+//            case R.id.menu_settings_addtosaved:
+//                return true;
             case R.id.menu_share_email:
                 sendJobDataToEmail();
                 return true;
@@ -198,7 +194,7 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void sendJobDataToText() {
-        String message = "";
+        String message;
         Intent jobToEmailIntent = new Intent(Intent.ACTION_SENDTO);
         jobToEmailIntent.putExtra(Intent.EXTRA_SUBJECT, jobsUrlData.get(1) + " for company " + jobsUrlData.get(2));
 
@@ -218,7 +214,7 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void sendJobDataToEmail() {
-        String message = "";
+        String message;
         Intent jobToEmailIntent = new Intent(Intent.ACTION_SENDTO);
         jobToEmailIntent.putExtra(Intent.EXTRA_SUBJECT, jobsUrlData.get(1) + " for company " + jobsUrlData.get(2));
 
@@ -239,69 +235,72 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
 
-    public class LoadWebURL extends AsyncTask<String, Integer, Void> {
-        private String jobTitle;
-        private Document doc;
+    /*
+    * Keeping for now...will want to use this in future versions.
+    * */
+//    public class LoadWebURL extends AsyncTask<String, Integer, Void> {
+//        private String jobTitle;
+//        private Document doc;
+//
+//        protected void onPreExecute() {
+//
+//        }
+//
+//        protected Void doInBackground(String... urls) {
+//
+//
+//            try {
+//                // Loads up the webpage.
+//                doc = Jsoup.connect(urls[0])
+//                        .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
+//                        .maxBodySize(0)
+//                        .timeout(600000)
+//                        .get();
+//                webPageBody=doc.toString();
+//            } catch (java.io.IOException ioException) {
+//                Toast.makeText(getApplicationContext(),"Error when loading webpage!",Toast.LENGTH_SHORT);
+//            } finally {
+//
+//            }
+//            return null;
+//        }
+//
+//
+//        protected void onProgressUpdate(Integer... progress) {
+//            super.onProgressUpdate(progress);
+//        }
+//
+//        protected void onPostExecute(Void result) {
+//            jobTitle = doc.title();
+//
+//
+//
+//            WebViewActivity.jobHtmlWebPage=doc.html().toString();
+//            WebViewActivity.jobHtmlWebPageTitle=jobTitle;
+//
+//            //Web Page completely opened.
+//            jobWebPageLoaded();
+//        }
+//    }
 
-        protected void onPreExecute() {
-
-        }
-
-        protected Void doInBackground(String... urls) {
-
-
-            try {
-                // Loads up the webpage.
-                doc = Jsoup.connect(urls[0])
-                        .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
-                        .maxBodySize(0)
-                        .timeout(600000)
-                        .get();
-                webPageBody=doc.toString();
-            } catch (java.io.IOException ioException) {
-                Toast.makeText(getApplicationContext(),"Error when loading webpage!",Toast.LENGTH_SHORT);
-            } finally {
-
-            }
-            return null;
-        }
-
-
-        protected void onProgressUpdate(Integer... progress) {
-            super.onProgressUpdate(progress);
-        }
-
-        protected void onPostExecute(Void result) {
-            jobTitle = doc.title();
-
-
-
-            WebViewActivity.jobHtmlWebPage=doc.html().toString();
-            WebViewActivity.jobHtmlWebPageTitle=jobTitle;
-
-            //Web Page completely opened.
-            jobWebPageLoaded();
-        }
-    }
-
-    private void jobWebPageLoaded() {
-        // web page completely loaded.
-
-        mProgressBar.setVisibility(View.INVISIBLE);
-
-        if (WebViewActivity.jobHtmlWebPageTitle.toLowerCase().contains("error page")) {
-            // Website exists but internally got a Html 404 or some other error...usually it's a 404 error.
-            // display more useful message.
-            WebViewActivity.mWebView.setVisibility(View.INVISIBLE);
-            WebViewActivity.mShareMenuItem.setVisible(false);
-            WebViewActivity.mSettingsAddToSavedMenuItem.setVisible(false);
-            return;
-        }
-
-        // making JaveScriptEnabled to be false as this greatly slows down the loading of the app.
-        mWebView.getSettings().setJavaScriptEnabled(false); // enable javascript
-
-        // Show the webpage in WebView.
-        mWebView.loadData(WebViewActivity.jobHtmlWebPage, "text/html", "UTF-8");
-    }
+//    private void jobWebPageLoaded() {
+//        // web page completely loaded.
+//
+//        mProgressBar.setVisibility(View.INVISIBLE);
+//
+//        if (WebViewActivity.jobHtmlWebPageTitle.toLowerCase().contains("error page")) {
+//            // Website exists but internally got a Html 404 or some other error...usually it's a 404 error.
+//            // display more useful message.
+//            WebViewActivity.mWebView.setVisibility(View.INVISIBLE);
+//            WebViewActivity.mShareMenuItem.setVisible(false);
+//            WebViewActivity.mSettingsAddToSavedMenuItem.setVisible(false);
+//            return;
+//        }
+//
+//        // making JaveScriptEnabled to be false as this greatly slows down the loading of the app.
+//        mWebView.getSettings().setJavaScriptEnabled(false); // enable javascript
+//
+//        // Show the webpage in WebView.
+//        mWebView.loadData(WebViewActivity.jobHtmlWebPage, "text/html", "UTF-8");
+//    }
 }
