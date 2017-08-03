@@ -14,6 +14,7 @@ public class SharedPrefStatic {
     public static boolean editIntentLoaded;
     public static boolean editIntentSaved;
     public static boolean initialLoadNetworkData;
+    public static boolean cameFromEditSearchIntent;
 
     public static String jobTextStr;
     public static String jobSkillStr;

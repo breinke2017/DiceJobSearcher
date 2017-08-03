@@ -38,7 +38,12 @@ import java.util.List;
 * out all the extra Dice-advertising.
 * */
 
-//ToDo: If you click NextPage too fast, empty views show up.
+
+//  All when changing the query (but not initial load query)!
+// Todo: Bug...when a query opens.  Then if you go to page 2.  Then re-do a query.  That new query shows up on page 2, instead of the 1st page.
+// Todo: Bug: If on a query, you're on page 5 then do another query but this query returns only 2 pages, then the page says "no records to display for query."
+
+// Todo: Add caching so loads are faster.  Fox news app, for example, seems to cache because its very fast to load.
 
 
 /*
@@ -83,10 +88,10 @@ public class MainActivity extends AppCompatActivity
 
         setupFindByViewIDs();
 
+        Api_Data.mCurrentPage = 1;
 
         // setup click listeners.
         setupListeners();
-        Api_Data.mCurrentPage=1;
 
         // load SharedPreferences
         sharedPref=setupSharedPreferences(AppConstants.PREF_FILENAME);
@@ -115,6 +120,10 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
 
         Log.v("!myapp!", "** MainActivity started **");
+//        if (SharedPrefStatic.cameFromEditSearchIntent) {
+//            Api_Data.mCurrentPage = 1;
+            SharedPrefStatic.cameFromEditSearchIntent = false;
+//        }
 
         // verified.
         if (SharedPrefStatic.initialLoadNetworkData==true || (SharedPrefStatic.editIntentLoaded==true && SharedPrefStatic.editIntentSaved==true)) {
@@ -386,6 +395,8 @@ public class MainActivity extends AppCompatActivity
     *  Gets called when the user hits the submit button or when a screen rotation occurs.
     * */
     public void triggerOurQuery() {
+
+
         runNetworkQuery(MainActivity.this);
     }
 

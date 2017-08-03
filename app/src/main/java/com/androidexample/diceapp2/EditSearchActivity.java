@@ -97,6 +97,8 @@ public class EditSearchActivity extends AppCompatActivity {
         else{
             SharedPrefStatic.editIntentSaved=false;
         }
+
+        SharedPrefStatic.cameFromEditSearchIntent=true;
         finish();
     }
 
