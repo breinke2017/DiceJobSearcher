@@ -1,6 +1,6 @@
-package com.androidexample.diceapp2.staticClasses;
+package com.ekniernairb.dicejobsearcher.staticClasses;
 
-import com.androidexample.diceapp2.networking.QueryURI;
+import com.ekniernairb.dicejobsearcher.networking.QueryURI;
 
 import java.util.ArrayList;
 

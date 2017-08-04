@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2.networking;
+package com.ekniernairb.dicejobsearcher.networking;
 
 /**
  * Created by brian.reinke on 6/23/2017.

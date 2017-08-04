@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidexample.diceapp2.constantContainers.AppConstants;
+import com.ekniernairb.dicejobsearcher.constantContainers.AppConstants;
 
 import java.util.ArrayList;
 

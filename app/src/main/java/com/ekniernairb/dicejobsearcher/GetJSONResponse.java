@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 /**
  * Created by brian.reinke on 6/22/2017.
@@ -7,9 +7,9 @@ package com.androidexample.diceapp2;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
-import com.androidexample.diceapp2.genericContainers.Jobs;
-import com.androidexample.diceapp2.networking.NetworkStreaming;
-import com.androidexample.diceapp2.staticClasses.SharedPrefStatic;
+import com.ekniernairb.dicejobsearcher.genericContainers.Jobs;
+import com.ekniernairb.dicejobsearcher.networking.NetworkStreaming;
+import com.ekniernairb.dicejobsearcher.staticClasses.SharedPrefStatic;
 
 import java.net.URL;
 import java.util.List;

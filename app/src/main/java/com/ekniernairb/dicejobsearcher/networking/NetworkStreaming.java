@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2.networking;
+package com.ekniernairb.dicejobsearcher.networking;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

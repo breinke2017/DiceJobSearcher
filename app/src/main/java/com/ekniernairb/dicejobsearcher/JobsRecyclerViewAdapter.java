@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.androidexample.diceapp2.genericContainers.Jobs;
+import com.ekniernairb.dicejobsearcher.genericContainers.Jobs;
 
 import java.util.List;
 

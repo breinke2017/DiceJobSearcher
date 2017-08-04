@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

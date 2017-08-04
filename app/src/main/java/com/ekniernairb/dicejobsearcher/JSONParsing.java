@@ -1,11 +1,11 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 /**
  * Created by brian.reinke on 6/22/2017.
  */
 
-import com.androidexample.diceapp2.genericContainers.Jobs;
-import com.androidexample.diceapp2.staticClasses.Api_Data;
+import com.ekniernairb.dicejobsearcher.genericContainers.Jobs;
+import com.ekniernairb.dicejobsearcher.staticClasses.Api_Data;
 
 import org.json.JSONArray;
 import org.json.JSONException;

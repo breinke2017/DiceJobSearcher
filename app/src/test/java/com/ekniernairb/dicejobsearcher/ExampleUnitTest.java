@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 import org.junit.Test;
 

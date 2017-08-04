@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 import android.app.LoaderManager;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,11 +20,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.androidexample.diceapp2.constantContainers.AppConstants;
-import com.androidexample.diceapp2.genericContainers.Jobs;
-import com.androidexample.diceapp2.networking.NetworkStreaming;
-import com.androidexample.diceapp2.staticClasses.Api_Data;
-import com.androidexample.diceapp2.staticClasses.SharedPrefStatic;
+import com.ekniernairb.dicejobsearcher.constantContainers.AppConstants;
+import com.ekniernairb.dicejobsearcher.genericContainers.Jobs;
+import com.ekniernairb.dicejobsearcher.networking.NetworkStreaming;
+import com.ekniernairb.dicejobsearcher.staticClasses.Api_Data;
+import com.ekniernairb.dicejobsearcher.staticClasses.SharedPrefStatic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem menu_savedSearches=null;
     private MenuItem menu_refresh=null;
 
+    private ProgressBar myProgressBar;
 
     /*
     * Reset RecyclerView onClick counters.  Because I'm hitting next page, it triggers a
@@ -108,6 +110,13 @@ public class MainActivity extends AppCompatActivity
 
         txt_RecyclerViewMessage =(TextView) findViewById(R.id.txt_RecyclerViewMessage);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerviewWidget);
+
+
+        myProgressBar=(ProgressBar) this.findViewById(R.id.progressbar);
+        myProgressBar= (ProgressBar) this.findViewById(R.id.progressbar);
+        if (Build.VERSION.SDK_INT >= 21) {
+            myProgressBar.setElevation(12);
+        }
     }
 
 
@@ -197,7 +206,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Loader<List<Jobs>> onCreateLoader(int id, final Bundle args) {
         //Here we will initiate AsyncTaskLoader
-        ProgressBar myProgressBar=(ProgressBar) this.findViewById(R.id.progressbar);
         myProgressBar.setVisibility(View.VISIBLE);
 
         return new GetJSONResponse(this);

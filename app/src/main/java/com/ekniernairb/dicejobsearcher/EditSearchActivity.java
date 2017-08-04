@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.androidexample.diceapp2.constantContainers.AppConstants;
-import com.androidexample.diceapp2.staticClasses.SharedPrefStatic;
+import com.ekniernairb.dicejobsearcher.constantContainers.AppConstants;
+import com.ekniernairb.dicejobsearcher.staticClasses.SharedPrefStatic;
 
 /*
 * This file is responsible for getting and saving shared preference data for Edit Search Parameters.

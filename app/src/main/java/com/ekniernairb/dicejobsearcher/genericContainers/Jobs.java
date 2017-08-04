@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2.genericContainers;
+package com.ekniernairb.dicejobsearcher.genericContainers;
 
 /**
  * Created by brian.reinke on 7/27/2017.

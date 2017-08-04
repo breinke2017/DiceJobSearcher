@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2.staticClasses;
+package com.ekniernairb.dicejobsearcher.staticClasses;
 
 /**
  * Created by brian.reinke on 8/1/2017.

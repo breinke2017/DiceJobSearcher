@@ -1,4 +1,4 @@
-package com.androidexample.diceapp2;
+package com.ekniernairb.dicejobsearcher;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
