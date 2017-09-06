@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,36 +20,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ekniernairb.dicejobsearcher.constantContainers.AppConstants;
+import com.ekniernairb.dicejobsearcher.genericContainers.ColorStyles;
 import com.ekniernairb.dicejobsearcher.genericContainers.Jobs;
 import com.ekniernairb.dicejobsearcher.networking.NetworkStreaming;
 import com.ekniernairb.dicejobsearcher.staticClasses.Api_Data;
+import com.ekniernairb.dicejobsearcher.staticClasses.ColorSchemeButtons;
 import com.ekniernairb.dicejobsearcher.staticClasses.SharedPrefStatic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-// Todo: Doesn't refresh or load when user rotates screen to landscape.
-
-/*
-* Todo: Use Jsoup to load in the webpage and put in a variable.  For some reason, when I did it,
-* it wasn't loading in all the HTML.  Therefore, it didn't appear correctly  in webview.  I could parse the html and take
-* out all the extra Dice-advertising.
-* */
-
-
-//  All when changing the query (but not initial load query)!
-// Todo: Bug...when a query opens.  Then if you go to page 2.  Then re-do a query.  That new query shows up on page 2, instead of the 1st page.
-// Todo: Bug: If on a query, you're on page 5 then do another query but this query returns only 2 pages, then the page says "no records to display for query."
-
-// Todo: Add caching so loads are faster.  Fox news app, for example, seems to cache because its very fast to load.
-
-
-/*
-* Is the news app with AsyncTask Loader.
-*
-* */
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Jobs>> {
@@ -58,33 +37,47 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     public static List<Jobs> jobs_AL = new ArrayList<>();
 
-    private Button but_prevpage;
-    private Button but_nextpage;
-    private TextView txt_RecyclerViewMessage;
+    private Button mBut_prevpage;
+    private Button mBut_nextpage;
+    private TextView mTxt_RecyclerViewMessage;
 
     // Widget variables to keep track of.
-    private MenuItem menu_savedSearches=null;
-    private MenuItem menu_refresh=null;
+    private MenuItem mMenu_savedSearches = null;
+    private MenuItem mMenu_refresh = null;
+    private MenuItem mMenu_color = null;
 
-    private ProgressBar myProgressBar;
+    private ProgressBar mMyProgressBar;
 
     /*
     * Reset RecyclerView onClick counters.  Because I'm hitting next page, it triggers a
       * reload of data.  Each time this occurs, a new RecyclerView listener is created.  This
       * causes a problem because it then triggers onClick() numerous extra times.
     * */
-    private int recyclerViewClickCounts;
-    private int recyclerViewListenerCounter =0;
-    private boolean ignoreRecyclerViewClickEvent;
+    private int mRecyclerViewClickCounts;
+    private int mRecyclerViewListenerCounter = 0;
+    private boolean mIgnoreRecyclerViewClickEvent;
     // -------------------------------------------------------
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        Must be done prior to setContentView
+        if (ColorSchemeButtons.hasSelectedColor) {
+            //change color scheme.
+            setActivityTheme(this, ColorSchemeButtons.colorButtonSelected);
+        } else {
+            // overrides the manifest file setting for theme.
+            this.setTheme(R.style.ColorSchemeDefault);
+        }
+
         setContentView(R.layout.activity_main);
 
         setupFindByViewIDs();
+
+        // load color list scheme
+        ColorSchemeButtons.colorStylesList = loadColorSchemeList(ColorSchemeButtons.colorStylesList);
 
         Api_Data.mCurrentPage = 1;
 
@@ -93,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
         // load SharedPreferences
         setupSharedPreferences(AppConstants.PREF_FILENAME);
-        SharedPrefStatic.initialLoadNetworkData=true;
+        SharedPrefStatic.mInitialLoadNetworkData = true;
 
         /*
         * Reset RecyclerView onClick counters.  Because I'm hitting next page, it triggers a
@@ -103,19 +96,20 @@ public class MainActivity extends AppCompatActivity
         resetRecyclerViewOnClickCounters();
     }
 
+
     private void setupFindByViewIDs() {
-        but_prevpage = (Button) findViewById(R.id.but_prevpage);
-        but_nextpage = (Button) findViewById(R.id.but_nextpage);
+        mBut_prevpage = (Button) findViewById(R.id.but_prevpage);
+        mBut_nextpage = (Button) findViewById(R.id.but_nextpage);
 
 
-        txt_RecyclerViewMessage =(TextView) findViewById(R.id.txt_RecyclerViewMessage);
+        mTxt_RecyclerViewMessage = (TextView) findViewById(R.id.txt_RecyclerViewMessage);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerviewWidget);
 
 
-        myProgressBar=(ProgressBar) this.findViewById(R.id.progressbar);
-        myProgressBar= (ProgressBar) this.findViewById(R.id.progressbar);
+        mMyProgressBar = (ProgressBar) this.findViewById(R.id.progressbar);
+        mMyProgressBar = (ProgressBar) this.findViewById(R.id.progressbar);
         if (Build.VERSION.SDK_INT >= 21) {
-            myProgressBar.setElevation(12);
+            mMyProgressBar.setElevation(12);
         }
     }
 
@@ -124,21 +118,17 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        Log.v("!myapp!", "** MainActivity started **");
-//        if (SharedPrefStatic.cameFromEditSearchIntent) {
-//            Api_Data.mCurrentPage = 1;
-            SharedPrefStatic.cameFromEditSearchIntent = false;
-//        }
+        SharedPrefStatic.mCameFromEditSearchIntent = false;
 
         // verified.
-        if (SharedPrefStatic.initialLoadNetworkData==true || (SharedPrefStatic.editIntentLoaded==true && SharedPrefStatic.editIntentSaved==true)) {
+        if (SharedPrefStatic.mInitialLoadNetworkData == true || (SharedPrefStatic.mEditIntentLoaded == true && SharedPrefStatic.mEditIntentSaved == true)) {
 
             triggerOurQuery();
 
             // Call after hitting this so we don't keep initiating a load.
-            SharedPrefStatic.initialLoadNetworkData=false;
-            SharedPrefStatic.editIntentLoaded=false;
-            SharedPrefStatic.editIntentSaved=false;
+            SharedPrefStatic.mInitialLoadNetworkData = false;
+            SharedPrefStatic.mEditIntentLoaded = false;
+            SharedPrefStatic.mEditIntentSaved = false;
         }
     }
 
@@ -166,19 +156,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // inflate our menus.
-        MenuInflater inflater=getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_menu, menu);
 //        inflater.inflate(R.menu.app_share_menu, menu);
 //        inflater.inflate(R.menu.app_settings_menu, menu);
 
         // Also, setup other menu finditems.
         //todo: Implement these in future versions.  The refresh should be removed.
-//        menu_savedSearches = menu.findItem(R.id.menu_item_savedsearches);
-        menu_refresh = menu.findItem(R.id.menu_refresh);
+        mMenu_refresh = menu.findItem(R.id.menu_refresh);
+        mMenu_color = menu.findItem(R.id.menu_color);
 
         return true;
     }
-
 
 
     @Override
@@ -187,17 +176,17 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.menu_item_editsearches:
                 Intent i = new Intent(this, EditSearchActivity.class);
-                SharedPrefStatic.editIntentLoaded=true;
-                SharedPrefStatic.editIntentSaved=false;
+                SharedPrefStatic.mEditIntentLoaded = true;
+                SharedPrefStatic.mEditIntentSaved = false;
                 startActivity(i);
                 return true;
             case R.id.menu_refresh:
                 return true;
-
-//                return true;
-//            case R.id.searchMenu:
-//                showSearchLayout(this);
-//                return true;
+            case R.id.menu_color:
+                Intent intent = new Intent(this, ColoringSchemeActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -206,7 +195,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Loader<List<Jobs>> onCreateLoader(int id, final Bundle args) {
         //Here we will initiate AsyncTaskLoader
-        myProgressBar.setVisibility(View.VISIBLE);
+        mMyProgressBar.setVisibility(View.VISIBLE);
 
         return new GetJSONResponse(this);
     }
@@ -223,33 +212,30 @@ public class MainActivity extends AppCompatActivity
 
 
         // set next/prev buttons
-        if (Api_Data.mLastDocument<Api_Data.mCount) {
-            but_nextpage.setVisibility(View.VISIBLE);
-        }
-        else {
-            but_nextpage.setVisibility(View.INVISIBLE);
+        if (Api_Data.mLastDocument < Api_Data.mCount) {
+            mBut_nextpage.setVisibility(View.VISIBLE);
+        } else {
+            mBut_nextpage.setVisibility(View.INVISIBLE);
         }
 
-        if (Api_Data.mCurrentPage>1) {
-            but_prevpage.setVisibility(View.VISIBLE);
-        }
-        else {
-            but_prevpage.setVisibility(View.INVISIBLE);
+        if (Api_Data.mCurrentPage > 1) {
+            mBut_prevpage.setVisibility(View.VISIBLE);
+        } else {
+            mBut_prevpage.setVisibility(View.INVISIBLE);
         }
 
         // Runs on each load finished, and runs after the close of every intent.
 
         // Loads the data into the recyclerview and displays it.
 
-            RecyclerView.Adapter adapter = setupRecyclerViewAdapter(MainActivity.jobs_AL);
+        RecyclerView.Adapter adapter = setupRecyclerViewAdapter(MainActivity.jobs_AL);
 
-            // creates a new OnItemtouchListener for RecyclerView.
-            setupRecyclerViewListeners(adapter, MainActivity.jobs_AL);
+        // creates a new OnItemtouchListener for RecyclerView.
+        setupRecyclerViewListeners(adapter, MainActivity.jobs_AL);
     }
 
     private void setupRecyclerViewListeners(RecyclerView.Adapter adapter, List<Jobs> jobs_al) {
-
-        recyclerViewListenerCounter++;
+        mRecyclerViewListenerCounter++;
 
         final List<Jobs> jobs_al_copy = jobs_al;
 
@@ -261,25 +247,20 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view, final int position) {
                 // Add your onClick() code here.
 
-                recyclerViewClickCounts++;
-                if (recyclerViewListenerCounter - recyclerViewClickCounts == 0) ignoreRecyclerViewClickEvent =false;
+                mRecyclerViewClickCounts++;
+                if (mRecyclerViewListenerCounter - mRecyclerViewClickCounts == 0)
+                    mIgnoreRecyclerViewClickEvent = false;
 
                 // Determines internet connectivity...if working, then display the data otherwise show internet error.
                 // no special query text.
-                if (!ignoreRecyclerViewClickEvent){
-                    boolean hasInternetConnection=checkInternetConnectivity(MainActivity.this);
+                if (!mIgnoreRecyclerViewClickEvent) {
+                    boolean hasInternetConnection = checkInternetConnectivity(MainActivity.this);
                     if (hasInternetConnection) {
 
                         // Get information from our arraylist regarding this position.
                         Jobs curJobsItem = jobs_al_copy.get(position);
                         //    String webURL = curJobsItem.getDetailURL();
 
-                        //                // sets up intent to open as webbrowser.
-                        //                Intent i = new Intent();
-                        //                i.setAction(Intent.ACTION_VIEW);
-                        //                i.addCategory(Intent.CATEGORY_BROWSABLE);
-                        //                i.setData(Uri.parse(webURL));
-                        //                startActivity(i);
 
                         // Build an arrayList that will have needed information from List<Jobs>.
                         ArrayList<String> jobsUrlData = new ArrayList<>(4);
@@ -288,7 +269,6 @@ public class MainActivity extends AppCompatActivity
                         jobsUrlData.add(2, jobs_al_copy.get(position).getCompany());
                         jobsUrlData.add(3, jobs_al_copy.get(position).getLocation());
                         jobsUrlData.add(4, jobs_al_copy.get(position).getPostingDate());
-
 
 
                         // sets up intent to open as WebView.
@@ -306,7 +286,7 @@ public class MainActivity extends AppCompatActivity
                           * causes a problem because it then triggers onClick() numerous extra times.
                         * */
                         resetRecyclerViewOnClickCounters();
-                 }
+                    }
                 }
             }
 
@@ -320,13 +300,10 @@ public class MainActivity extends AppCompatActivity
         // determine if adapter (recyclerview) has objects or not.
         if (adapter.getItemCount() == 0) {
             // No records to show.
-            txt_RecyclerViewMessage.setVisibility(View.VISIBLE);
+            mTxt_RecyclerViewMessage.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.INVISIBLE);
-
-//            mRecyclerView.setEmptyView(txt_multipurpose);
-        }
-        else {
-            txt_RecyclerViewMessage.setVisibility(View.INVISIBLE);
+        } else {
+            mTxt_RecyclerViewMessage.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
         }
 
@@ -342,8 +319,8 @@ public class MainActivity extends AppCompatActivity
       * causes a problem because it then triggers onClick() numerous extra times.
     * */
     private void resetRecyclerViewOnClickCounters() {
-        ignoreRecyclerViewClickEvent =true;
-        recyclerViewClickCounts =0;
+        mIgnoreRecyclerViewClickEvent = true;
+        mRecyclerViewClickCounts = 0;
     }
 
 
@@ -355,12 +332,10 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
     // User clicked the submit query button
     private void setupListeners() {
         // Prev page listener
-        but_prevpage.setOnClickListener(new View.OnClickListener() {
+        mBut_prevpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Api_Data.mCurrentPage -= 1;
@@ -374,18 +349,15 @@ public class MainActivity extends AppCompatActivity
         });
 
         // Next page listener
-        but_nextpage.setOnClickListener(new View.OnClickListener() {
+        mBut_nextpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Api_Data.mCurrentPage += 1;
-//                recyclerViewClickCounts++;
+//                mRecyclerViewClickCounts++;
 
                 SharedPrefStatic.buildUriQuery();
-
                 getLoaderManager().destroyLoader(0);
-
                 runNetworkQuery(MainActivity.this);
-
             }
         });
     }
@@ -395,8 +367,6 @@ public class MainActivity extends AppCompatActivity
     *  Gets called when the user hits the submit button or when a screen rotation occurs.
     * */
     public void triggerOurQuery() {
-
-
         runNetworkQuery(MainActivity.this);
     }
 
@@ -407,29 +377,25 @@ public class MainActivity extends AppCompatActivity
 
         // Determines internet connectivity...if working, then display the data otherwise show internet error.
         // no special query text.
-        boolean hasInternetConnection= checkInternetConnectivity(context);
+        boolean hasInternetConnection = checkInternetConnectivity(context);
 
         if (hasInternetConnection) {
-//            GetJSONResponse getJSONResponse = new GetJSONResponse(context, queryLookup);
-//            getJSONResponse.execute(null, null, null);
-            //
             // Run the query here.
             getLoaderManager().initLoader(0, null, this).forceLoad();
         }
     }
 
-    private boolean checkInternetConnectivity(Context context){
+    private boolean checkInternetConnectivity(Context context) {
         // Determines internet connectivity...if working, then display the data otherwise show internet error.
         // no special query text.
-        boolean hasInternetConnection= NetworkStreaming.checkInternetConnection(context.getApplicationContext());
+        boolean hasInternetConnection = NetworkStreaming.checkInternetConnection(context.getApplicationContext());
         if (!hasInternetConnection) {
 //            progressBar.setVisibility(View.INVISIBLE);
-            txt_RecyclerViewMessage.setText(R.string.noInternetConnection_msg);
-            txt_RecyclerViewMessage.setVisibility(View.VISIBLE);
+            mTxt_RecyclerViewMessage.setText(R.string.noInternetConnection_msg);
+            mTxt_RecyclerViewMessage.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.INVISIBLE);
-        }
-        else {
-            txt_RecyclerViewMessage.setVisibility(View.INVISIBLE);
+        } else {
+            mTxt_RecyclerViewMessage.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
         }
         return hasInternetConnection;
@@ -448,14 +414,50 @@ public class MainActivity extends AppCompatActivity
 
         sharedPreferences_ob = this.getSharedPreferences(prefFileName, 0);
 
-        SharedPrefStatic.jobTextStr =sharedPreferences_ob.getString(AppConstants.PREF_KEY_TEXT, "");
-        SharedPrefStatic.jobSkillStr=sharedPreferences_ob.getString(AppConstants.PREF_KEY_SKILL, "");
-        SharedPrefStatic.jobLocationStr=sharedPreferences_ob.getString(AppConstants.PREF_KEY_LOCATION, "");
-        SharedPrefStatic.jobAgeStr=sharedPreferences_ob.getString(AppConstants.PREF_KEY_AGE, "");
+        SharedPrefStatic.mJobTextStr = sharedPreferences_ob.getString(AppConstants.PREF_KEY_TEXT, "");
+        SharedPrefStatic.mJobSkillStr = sharedPreferences_ob.getString(AppConstants.PREF_KEY_SKILL, "");
+        SharedPrefStatic.mJobLocationStr = sharedPreferences_ob.getString(AppConstants.PREF_KEY_LOCATION, "");
+        SharedPrefStatic.mJobAgeStr = sharedPreferences_ob.getString(AppConstants.PREF_KEY_AGE, "");
 
         // initial load.
         SharedPrefStatic.buildUriQuery();
+    }
 
-//        return sharedPreferences_ob;
+
+    /*
+    * Loading pre-defined values that look look.  These are combinations taken from Google Material Design:
+    *   https://material.io/color/#!/?view.left=0&view.right=0
+    *
+    *   View.generateViewId() generates resID (API 17 and higher)
+    * */
+    private List<ColorStyles> loadColorSchemeList(List<ColorStyles> colorStylesList) {
+        colorStylesList.add(new ColorStyles(View.generateViewId(), "#42a5f5", "#0077c2", "#80d6ff", "#000000"));
+        colorStylesList.add(new ColorStyles(View.generateViewId(), "#3F51B5", "#002984", "#757de8", "#ffffff"));
+        colorStylesList.add(new ColorStyles(View.generateViewId(), "#f48fb1", "#bf5f82", "#ffc1e3", "#000000"));
+        colorStylesList.add(new ColorStyles(View.generateViewId(), "#689f38", "#387002", "#99d066", "#000000"));
+
+        return colorStylesList;
+    }
+
+    /*
+    * Sets the Activities' theme.  Note: While technically not part of the Activity theme, also am including
+    * CardView and the TextView objects to change too.  They are logically part of this same task.
+    * */
+    private void setActivityTheme(Context context, int colorButtonSelected) {
+        // must be called before any Activity instantiation!
+        switch (colorButtonSelected) {
+            case 0:
+                context.setTheme(R.style.ColorSchemeButton0);
+                break;
+            case 1:
+                context.setTheme(R.style.ColorSchemeButton1);
+                break;
+            case 2:
+                context.setTheme(R.style.ColorSchemeButton2);
+                break;
+            case 3:
+                context.setTheme(R.style.ColorSchemeButton3);
+                break;
+        }
     }
 }

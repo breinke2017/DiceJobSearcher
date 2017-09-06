@@ -15,10 +15,10 @@ import com.ekniernairb.dicejobsearcher.staticClasses.SharedPrefStatic;
 * */
 
 public class EditSearchActivity extends AppCompatActivity {
-    private EditText editTextJobText;
-    private EditText editTextSkill;
-    private EditText editTextLocation;
-    private EditText editTextAge;
+    private EditText mEditTextJobText;
+    private EditText mEditTextSkill;
+    private EditText mEditTextLocation;
+    private EditText mEditTextAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +37,14 @@ public class EditSearchActivity extends AppCompatActivity {
 
     private void getInitialValues() {
         // Load Widgets with Data already retrieved from Main Activity.
-        editTextJobText.setText(SharedPrefStatic.jobTextStr);
-        editTextSkill.setText(SharedPrefStatic.jobSkillStr);
-        editTextLocation.setText(SharedPrefStatic.jobLocationStr);
-        editTextAge.setText(SharedPrefStatic.jobAgeStr);
+        mEditTextJobText.setText(SharedPrefStatic.mJobTextStr);
+        mEditTextSkill.setText(SharedPrefStatic.mJobSkillStr);
+        mEditTextLocation.setText(SharedPrefStatic.mJobLocationStr);
+        mEditTextAge.setText(SharedPrefStatic.mJobAgeStr);
     }
 
     private void setupListeners() {
-        editTextJobText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mEditTextJobText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 // user pressed action button (enter)
@@ -52,7 +52,7 @@ public class EditSearchActivity extends AppCompatActivity {
             }
         });
 
-        editTextSkill.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mEditTextSkill.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 // user pressed action button (enter)
@@ -60,7 +60,7 @@ public class EditSearchActivity extends AppCompatActivity {
             }
         });
 
-        editTextLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mEditTextLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 // user pressed action button (enter)
@@ -68,7 +68,7 @@ public class EditSearchActivity extends AppCompatActivity {
             }
         });
 
-        editTextAge.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mEditTextAge.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 // user pressed action button (enter)
@@ -89,59 +89,57 @@ public class EditSearchActivity extends AppCompatActivity {
 
 
     public void onBackPressed() {
-        boolean valuesWereChanged=settingChangedValues(SharedPrefStatic.jobTextStr, SharedPrefStatic.jobSkillStr,
-                SharedPrefStatic.jobLocationStr, SharedPrefStatic.jobAgeStr);
+        boolean valuesWereChanged = settingChangedValues(SharedPrefStatic.mJobTextStr, SharedPrefStatic.mJobSkillStr,
+                SharedPrefStatic.mJobLocationStr, SharedPrefStatic.mJobAgeStr);
         if (valuesWereChanged) {
             savePreferences();
-        }
-        else{
-            SharedPrefStatic.editIntentSaved=false;
+        } else {
+            SharedPrefStatic.mEditIntentSaved = false;
         }
 
-        SharedPrefStatic.cameFromEditSearchIntent=true;
+        SharedPrefStatic.mCameFromEditSearchIntent = true;
         finish();
     }
 
     private boolean settingChangedValues(String origJobText, String origJobSkill, String origLocation,
                                          String origAge) {
         // Have we even changed any values?  Returns true if so.
-        if (!origJobText.contentEquals(editTextJobText.getText().toString()) ||
-                !origJobSkill.contentEquals(editTextSkill.getText().toString()) ||
-                !origLocation.contentEquals(editTextLocation.getText().toString()) ||
-                !origAge.contentEquals(editTextAge.getText().toString())) {
+        if (!origJobText.contentEquals(mEditTextJobText.getText().toString()) ||
+                !origJobSkill.contentEquals(mEditTextSkill.getText().toString()) ||
+                !origLocation.contentEquals(mEditTextLocation.getText().toString()) ||
+                !origAge.contentEquals(mEditTextAge.getText().toString())) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     private void savePreferences() {
         // Save the preferences.
 
         // Save settings to our location.
-        SharedPrefStatic.jobTextStr = editTextJobText.getText().toString().replace(" ", "");
-        SharedPrefStatic.jobSkillStr = editTextSkill.getText().toString().replace(" ", "");
-        SharedPrefStatic.jobLocationStr = editTextLocation.getText().toString().replace(" ", "");
-        SharedPrefStatic.jobAgeStr = editTextAge.getText().toString().replace(" ", "");
+        SharedPrefStatic.mJobTextStr = mEditTextJobText.getText().toString().replace(" ", "");
+        SharedPrefStatic.mJobSkillStr = mEditTextSkill.getText().toString().replace(" ", "");
+        SharedPrefStatic.mJobLocationStr = mEditTextLocation.getText().toString().replace(" ", "");
+        SharedPrefStatic.mJobAgeStr = mEditTextAge.getText().toString().replace(" ", "");
 
         SharedPreferences sharedPref = getSharedPreferences(AppConstants.PREF_FILENAME, 0);
         SharedPreferences.Editor editer = sharedPref.edit();
-        editer.putString(AppConstants.PREF_KEY_TEXT, SharedPrefStatic.jobTextStr);
-        editer.putString(AppConstants.PREF_KEY_SKILL, SharedPrefStatic.jobSkillStr);
-        editer.putString(AppConstants.PREF_KEY_LOCATION, SharedPrefStatic.jobLocationStr);
-        editer.putString(AppConstants.PREF_KEY_AGE, SharedPrefStatic.jobAgeStr);
+        editer.putString(AppConstants.PREF_KEY_TEXT, SharedPrefStatic.mJobTextStr);
+        editer.putString(AppConstants.PREF_KEY_SKILL, SharedPrefStatic.mJobSkillStr);
+        editer.putString(AppConstants.PREF_KEY_LOCATION, SharedPrefStatic.mJobLocationStr);
+        editer.putString(AppConstants.PREF_KEY_AGE, SharedPrefStatic.mJobAgeStr);
 
         // The commit runs faster.
         editer.apply();
 
         // Run this every time we're building a query.
         SharedPrefStatic.buildUriQuery();
-        SharedPrefStatic.editIntentSaved = true;
+        SharedPrefStatic.mEditIntentSaved = true;
     }
 
     private void setupFindByViewIds() {
-        editTextJobText = (EditText)findViewById(R.id.editText_edit_search_jobText);
-        editTextSkill = (EditText)findViewById(R.id.editText_edit_search_skill);
-        editTextLocation = (EditText)findViewById(R.id.editText_edit_search_location);
-        editTextAge = (EditText)findViewById(R.id.editText_edit_search_age);
+        mEditTextJobText = (EditText) findViewById(R.id.editText_edit_search_jobText);
+        mEditTextSkill = (EditText) findViewById(R.id.editText_edit_search_skill);
+        mEditTextLocation = (EditText) findViewById(R.id.editText_edit_search_location);
+        mEditTextAge = (EditText) findViewById(R.id.editText_edit_search_age);
     }
 }

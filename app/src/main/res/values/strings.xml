@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Dice Job Searcher</string>
-    <string name="job_title">Job Title:</string>
-    <string name="company">Company:</string>
-    <string name="location">Location:</string>
-    <string name="posting_date">Posting Date:</string>
-    <string name="hint_company">company</string>
-    <string name="job_location">job location</string>
+    <string name="job_title">Job Title: </string>
+    <string name="company">Company: </string>
+    <string name="location">Location: </string>
+    <string name="posting_date">Posting Date: </string>
     <string name="prev_page">Prev Page</string>
     <string name="next_page">Next Page</string>
     <string name="textSkillTitle">Skill/Title:</string>

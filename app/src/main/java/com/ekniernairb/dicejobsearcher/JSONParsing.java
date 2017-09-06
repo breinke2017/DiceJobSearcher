@@ -37,9 +37,9 @@ public class JSONParsing {
 
         // This is a local arraylist we build...then pass back.
         List<Jobs> jobsAL = new ArrayList<>();
-        Api_Data.mCount=0;
-        Api_Data.mFirstDocument=0;
-        Api_Data.mLastDocument=0;
+        Api_Data.mCount = 0;
+        Api_Data.mFirstDocument = 0;
+        Api_Data.mLastDocument = 0;
 
         // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -59,14 +59,14 @@ public class JSONParsing {
             // Next, get a list of arrays from JSON...everything we want is in the 'items' array.
             // How this API is structured: all books in the API exist in this 'items' array.
             // Each array item is a different book.
-            if (Api_Data.mCount>0) {
+            if (Api_Data.mCount > 0) {
                 JSONArray jobs_jsonArray = baseJsonResponse.getJSONArray("resultItemList");
 
                 // iterate over the list of JSON values.
                 for (int i = 0; i < jobs_jsonArray.length(); i++) {
                     JSONObject currentJobsObject = jobs_jsonArray.getJSONObject(i);
 
-                    String detailUrl,jobTitle,company,location,date;
+                    String detailUrl, jobTitle, company, location, date;
 
                     detailUrl = currentJobsObject.getString("detailUrl");
                     jobTitle = currentJobsObject.getString("jobTitle");
@@ -83,7 +83,7 @@ public class JSONParsing {
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
 
-            if (Api_Data.mCount==0) {
+            if (Api_Data.mCount == 0) {
             }
         }
 

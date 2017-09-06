@@ -15,11 +15,11 @@ class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
     private ClickListener clicklistener;
     private GestureDetector gestureDetector;
 
-    public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ClickListener clicklistener){
+    public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ClickListener clicklistener) {
 
-        this.clicklistener=clicklistener;
+        this.clicklistener = clicklistener;
 
-        gestureDetector=new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             // Gesture Detector has many events that get detected for you.
 
             @Override
@@ -31,9 +31,9 @@ class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
             @Override
             public void onLongPress(MotionEvent e) {
 
-                View child=recycleView.findChildViewUnder(e.getX(),e.getY());
-                if(child!=null && clicklistener!=null){
-                    clicklistener.onLongClick(child,recycleView.getChildAdapterPosition(child));
+                View child = recycleView.findChildViewUnder(e.getX(), e.getY());
+                if (child != null && clicklistener != null) {
+                    clicklistener.onLongClick(child, recycleView.getChildAdapterPosition(child));
                 }
             }
         });
@@ -42,9 +42,9 @@ class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        View child=rv.findChildViewUnder(e.getX(),e.getY());
-        if(child!=null && clicklistener!=null && gestureDetector.onTouchEvent(e)){
-            clicklistener.onClick(child,rv.getChildAdapterPosition(child));
+        View child = rv.findChildViewUnder(e.getX(), e.getY());
+        if (child != null && clicklistener != null && gestureDetector.onTouchEvent(e)) {
+            clicklistener.onClick(child, rv.getChildAdapterPosition(child));
         }
         return false;
     }

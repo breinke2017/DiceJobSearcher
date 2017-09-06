@@ -27,13 +27,14 @@ import java.util.ArrayList;
 
 public class NetworkStreaming {
 
-    private NetworkStreaming() { }
+    private NetworkStreaming() {
+    }
 
     /*
     * ConverttoURL is needed because we have to convert the URL-string to URL-object.
     * */
     public static URL ConverttoURL(String url_string) {
-        URL urlString=null;
+        URL urlString = null;
         try {
             urlString = new URL(url_string);
         } catch (MalformedURLException e) {
@@ -52,25 +53,25 @@ public class NetworkStreaming {
         /*
         * Do syntax checking on scheme.
         * */
-        String correctedScheme=scheme.trim();
-        correctedScheme=correctedScheme.replace(" ","");
-        correctedScheme=correctedScheme.replace("/","");
-        correctedScheme=correctedScheme.replace("/","");
-        if (!correctedScheme.substring(correctedScheme.length()-1).contentEquals(":")) {
-            correctedScheme+=":";
+        String correctedScheme = scheme.trim();
+        correctedScheme = correctedScheme.replace(" ", "");
+        correctedScheme = correctedScheme.replace("/", "");
+        correctedScheme = correctedScheme.replace("/", "");
+        if (!correctedScheme.substring(correctedScheme.length() - 1).contentEquals(":")) {
+            correctedScheme += ":";
         }
 
 
         /*
         * Do syntax checking on authority.
         * */
-        String correctedAuthority=authority.trim();
-        correctedAuthority=correctedAuthority.replace(" ","");
+        String correctedAuthority = authority.trim();
+        correctedAuthority = correctedAuthority.replace(" ", "");
 
         // remove 'slashes' should it have it..we'll add it programtically.
-        correctedAuthority=correctedAuthority.replace("/","");
-        if (!correctedScheme.substring(correctedScheme.length()-1).contentEquals(":")) {
-            correctedScheme+=":";
+        correctedAuthority = correctedAuthority.replace("/", "");
+        if (!correctedScheme.substring(correctedScheme.length() - 1).contentEquals(":")) {
+            correctedScheme += ":";
         }
 
 
@@ -78,8 +79,8 @@ public class NetworkStreaming {
         * Do syntax checking on resource.
         * */
         String correctedResource = resource.trim();
-        correctedResource = correctedResource.replace(" ","");
-        if (correctedResource.length()!=0) {
+        correctedResource = correctedResource.replace(" ", "");
+        if (correctedResource.length() != 0) {
             if (correctedResource.substring(correctedResource.length() - 1).contentEquals("/")) {
                 correctedResource = correctedResource.substring(0, correctedResource.length() - 2);
             }
@@ -88,20 +89,19 @@ public class NetworkStreaming {
         /*
         * Build the query.
         * */
-        String queryPath="";
-        int i=0;
+        String queryPath = "";
+        int i = 0;
         for (QueryURI curItem : queryAL) {
             i++;
-            if (i==1) {
-                queryPath+="?";
+            if (i == 1) {
+                queryPath += "?";
+            } else if (i > 1) {
+                queryPath += "&";
             }
-            else if (i>1) {
-                queryPath+="&";
-            }
-            queryPath+=curItem.getKey() + "=" + curItem.getValue();
+            queryPath += curItem.getKey() + "=" + curItem.getValue();
         }
 
-        Uri myURL=Uri.parse(correctedScheme + "//" + correctedAuthority + "/" + correctedResource + queryPath);
+        Uri myURL = Uri.parse(correctedScheme + "//" + correctedAuthority + "/" + correctedResource + queryPath);
 
 /*        Am not using because the builder is too limiting for our purposes.
         Uri.Builder builder = new Uri.Builder();
@@ -163,7 +163,7 @@ public class NetworkStreaming {
             }
         }
 
-        jsonResponse=JsonResponseBuilder.toString();
+        jsonResponse = JsonResponseBuilder.toString();
         return jsonResponse;
     }
 
@@ -183,7 +183,7 @@ public class NetworkStreaming {
 //                e.printStackTrace();
             }
 
-            while(line != null) {
+            while (line != null) {
                 output.append(line);
                 try {
                     line = reader.readLine();

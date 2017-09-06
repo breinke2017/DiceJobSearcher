@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
             style="@style/TextTheme"
@@ -18,19 +16,18 @@
             android:text="@string/textSkillTitle" />
 
         <EditText
-            style="@style/EditTextTheme"
-            android:inputType="text"
             android:id="@+id/editText_edit_search_skill"
+            style="@style/EditTextTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="    Skill/Text   "/>
+            android:hint="    Skill/Text   "
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
             style="@style/TextTheme"
@@ -39,19 +36,18 @@
 
         <!-- Keep these EditText's a literal string, otherwise the spacing is not correct -->
         <EditText
-            style="@style/EditTextTheme"
-            android:inputType="text"
             android:id="@+id/editText_edit_search_jobText"
+            style="@style/EditTextTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="     JobText     " />
+            android:hint="     JobText     "
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
             style="@style/TextTheme"
@@ -59,19 +55,18 @@
             android:text="@string/Location1" />
 
         <EditText
-            style="@style/EditTextTheme"
-            android:inputType="text"
             android:id="@+id/editText_edit_search_location"
+            style="@style/EditTextTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="     Location    " />
+            android:hint="     Location    "
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
             style="@style/TextTheme"
@@ -79,11 +74,11 @@
             android:text="@string/MaxAgeOfJobPosting" />
 
         <EditText
-            style="@style/EditTextTheme"
-            android:inputType="number"
             android:id="@+id/editText_edit_search_age"
+            style="@style/EditTextTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/MaxAgeOfJobPosting_Hint" />
+            android:hint="@string/MaxAgeOfJobPosting_Hint"
+            android:inputType="number" />
     </LinearLayout>
 </LinearLayout>

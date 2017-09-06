@@ -30,15 +30,11 @@ public class WebViewActivity extends AppCompatActivity {
     private static TextView mTextView = null;
     private static MenuItem mShareMenuItem;
     private static MenuItem mSettingsAddToSavedMenuItem;
-    private MenuItem menu_savedSearches;
+    private MenuItem mMenu_savedSearches;
     private static ProgressBar mProgressBar;
 
     private String mWebUrl;
     private ArrayList<String> jobsUrlData;
-
-    private static String jobHtmlWebPageTitle;
-    private static String jobHtmlWebPage;
-    private static String webPageBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,48 +42,32 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
 
         // Create findByViewIds...
-        Log.v("!myapp!","webviewActivity has been created **");
+        Log.v("!myapp!", "webviewActivity has been created **");
 
         mWebView = (WebView) findViewById(R.id.webview);
         mTextView = (TextView) findViewById(R.id.webview_Text_WebPageProblem);
-        mProgressBar=(ProgressBar) findViewById(R.id.progressbar_webview);
-
-        // Loads up WebView.
-        // ArrayList Data
-//        jobsUrlData.add(jobs_al_copy.get(0).getDetailURL());
-//        jobsUrlData.add(jobs_al_copy.get(1).getJobText());
-//        jobsUrlData.add(jobs_al_copy.get(2).getCompany());
-//        jobsUrlData.add(jobs_al_copy.get(3).getLocation());
-//        jobsUrlData.add(jobs_al_copy.get(4).getPostingDate());
-
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar_webview);
         jobsUrlData = getIntent().getStringArrayListExtra(AppConstants.PutExtra_JobURLInfo);
-        mWebUrl=jobsUrlData.get(0);
+        mWebUrl = jobsUrlData.get(0);
 
         // set page title with jobtitle.
         setTitle(jobsUrlData.get(1));
 
         // See also method jobWebPageLoaded for when job Posting completely opens.
         loadWebViewWidget(mWebUrl);
-
-//        // Loading webview in Background Thread
-//        new LoadWebView().execute();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.v("!myapp!", "Webview is starting");
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        Log.v("!myapp!", "onstop() occurred!");
-
         // unload all this data.
-        mWebView=null;
+        mWebView = null;
     }
 
 
@@ -157,7 +137,7 @@ public class WebViewActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_share_menu, menu);
 
-       //todo: Enable this functionality later.
+        //todo: Enable this functionality later.
 //        inflater.inflate(R.menu.app_settings_menu, menu);
 
         // Also, setup other menu finditems.
@@ -174,20 +154,12 @@ public class WebViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-//            case R.id.menu_settings_addtosaved:
-//                return true;
             case R.id.menu_share_email:
                 sendJobDataToEmail();
                 return true;
             case R.id.menu_share_text:
                 sendJobDataToText();
                 return true;
-
-//                showEditSearchesLayout(R.layout.activity_editsearch, this);
-//                return true;
-//            case R.id.searchMenu:
-//                showSearchLayout(this);
-//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -233,74 +205,4 @@ public class WebViewActivity extends AppCompatActivity {
             startActivity(jobToEmailIntent);
         }
     }
-
-
-    /*
-    * Keeping for now...will want to use this in future versions.
-    * */
-//    public class LoadWebURL extends AsyncTask<String, Integer, Void> {
-//        private String jobTitle;
-//        private Document doc;
-//
-//        protected void onPreExecute() {
-//
-//        }
-//
-//        protected Void doInBackground(String... urls) {
-//
-//
-//            try {
-//                // Loads up the webpage.
-//                doc = Jsoup.connect(urls[0])
-//                        .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
-//                        .maxBodySize(0)
-//                        .timeout(600000)
-//                        .get();
-//                webPageBody=doc.toString();
-//            } catch (java.io.IOException ioException) {
-//                Toast.makeText(getApplicationContext(),"Error when loading webpage!",Toast.LENGTH_SHORT);
-//            } finally {
-//
-//            }
-//            return null;
-//        }
-//
-//
-//        protected void onProgressUpdate(Integer... progress) {
-//            super.onProgressUpdate(progress);
-//        }
-//
-//        protected void onPostExecute(Void result) {
-//            jobTitle = doc.title();
-//
-//
-//
-//            WebViewActivity.jobHtmlWebPage=doc.html().toString();
-//            WebViewActivity.jobHtmlWebPageTitle=jobTitle;
-//
-//            //Web Page completely opened.
-//            jobWebPageLoaded();
-//        }
-//    }
-
-//    private void jobWebPageLoaded() {
-//        // web page completely loaded.
-//
-//        mProgressBar.setVisibility(View.INVISIBLE);
-//
-//        if (WebViewActivity.jobHtmlWebPageTitle.toLowerCase().contains("error page")) {
-//            // Website exists but internally got a Html 404 or some other error...usually it's a 404 error.
-//            // display more useful message.
-//            WebViewActivity.mWebView.setVisibility(View.INVISIBLE);
-//            WebViewActivity.mShareMenuItem.setVisible(false);
-//            WebViewActivity.mSettingsAddToSavedMenuItem.setVisible(false);
-//            return;
-//        }
-//
-//        // making JaveScriptEnabled to be false as this greatly slows down the loading of the app.
-//        mWebView.getSettings().setJavaScriptEnabled(false); // enable javascript
-//
-//        // Show the webpage in WebView.
-//        mWebView.loadData(WebViewActivity.jobHtmlWebPage, "text/html", "UTF-8");
-//    }
 }

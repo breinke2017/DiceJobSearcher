@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
+    android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:background="?android:attr/selectableItemBackground">
+    android:orientation="vertical">
     tools:context="com.androidexample.project7_newsapp.MainActivity"
     >
 
@@ -19,9 +19,9 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/header_section"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/header_section">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/but_prevpage"
@@ -36,29 +36,28 @@
                 android:id="@+id/but_nextpage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:layout_alignParentRight="true"
                 android:hint="@string/next_page"
                 android:text="@string/next_page"
-                android:visibility="invisible"
-                />
+                android:textSize="12sp"
+                android:visibility="invisible" />
 
             <ProgressBar
                 android:id="@+id/progressbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:visibility="invisible"
-                android:elevation="12dp" />
+                android:elevation="12dp"
+                android:visibility="invisible" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/header_section"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackground">
+            android:focusable="true">
             >
 
             <TextView
@@ -68,20 +67,19 @@
                 android:gravity="center"
                 android:text="@string/noRecordstoDisplayforQuery"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerviewWidget"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                android:scrollbarSize="2dp"
-                android:scrollbarThumbVertical="@color/colorAccent"
-                android:verticalScrollbarPosition="right"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground" />
+                android:scrollbarSize="2dp"
+                android:scrollbarThumbVertical="@color/colorAccent"
+                android:scrollbars="vertical"
+                android:verticalScrollbarPosition="right" />
 
             <!--<ListView-->
             <!--android:id="@+id/lv_listview"-->

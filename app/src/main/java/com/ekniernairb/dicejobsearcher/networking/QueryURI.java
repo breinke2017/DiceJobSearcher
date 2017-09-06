@@ -9,8 +9,8 @@ final public class QueryURI {
     private String mValue;
 
     public QueryURI(String key, String value) {
-        this .mKey=key;
-        this .mValue=value;
+        this.mKey = key;
+        this.mValue = value;
     }
 
     public String getKey() {

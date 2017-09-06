@@ -23,4 +23,37 @@
         <item name="android:layout_width">200dp</item>
     </style>
 
+    <!--
+    You cannot set a view's style programmatically yet, but you may find this thread useful.
+    Update: At the time of answering this question (mid 2012, API level 14-15), setting the view
+    programmatically was not an option (even though there were some non-trivial workarounds)whereas
+    this has been made possible after the more recent API releases. See @Blundell's answer for details.
+    -->
+    <style name="ColorSchemeDefault" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#42a5f5</item>
+        <item name="colorPrimaryDark">#0077c2</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ColorSchemeButton0" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#42a5f5</item>
+        <item name="colorPrimaryDark">#0077c2</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ColorSchemeButton1" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#3F51B5</item>
+        <item name="colorPrimaryDark">#002984</item>
+    </style>
+
+    <style name="ColorSchemeButton2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#f48fb1</item>
+        <item name="colorPrimaryDark">#bf5f82</item>
+    </style>
+
+    <style name="ColorSchemeButton3" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#689f38</item>
+        <item name="colorPrimaryDark">#387002</item>
+    </style>
+
 </resources>

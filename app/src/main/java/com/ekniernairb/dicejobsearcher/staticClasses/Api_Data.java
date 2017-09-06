@@ -1,7 +1,7 @@
 package com.ekniernairb.dicejobsearcher.staticClasses;
 
 /**
- * Created by brian.reinke on 8/1/2017.
+ * Class to keep track of useful information project-wide.
  */
 
 public class Api_Data {

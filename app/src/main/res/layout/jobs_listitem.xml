@@ -1,84 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    android:orientation="horizontal"
-    >
+    android:layout_margin="0dp"
+    android:background="#FFFBFF"
+    android:orientation="horizontal">
 
-    <RelativeLayout
+    <!--This first cardview is the underneath shadow. -->
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="10dp"
+        android:foreground="?selectableItemBackground"
+        android:visibility="visible"
+        card_view:cardBackgroundColor="#C9CACA"
+        card_view:cardCornerRadius="18dp"
+        card_view:cardElevation="3dp"
+        card_view:contentPadding="4dp">
 
-        <TextView
-            android:id="@+id/txt_jobtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/job_title" />
-
-        <TextView
-            android:id="@+id/txt_jobCompany"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/txt_jobtitle"
-            android:text="@string/company" />
-
-        <TextView
-            android:id="@+id/txt_jobLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/txt_jobCompany"
-            android:text="@string/location" />
-
-        <TextView
-            android:id="@+id/txt_jobPostingDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/txt_jobLocation"
-            android:text="@string/posting_date" />
-
-        <!--Creates a nice looking gray line around each control-->
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="#c0c0c0"/>
-
-        <TextView
-            android:id="@+id/txt_title"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/txt_jobCompany"
-            android:hint="@string/job_title" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txt_company"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/txt_jobCompany"
-            android:layout_below="@+id/txt_title"
-            android:hint="@string/hint_company" />
+            <!--Column of text literals-->
+            <TextView
+                android:id="@+id/txt_jobtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="" />
 
-        <TextView
-            android:id="@+id/txt_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/txt_jobLocation"
-            android:layout_below="@+id/txt_company"
-            android:hint="@string/job_location" />
+            <TextView
+                android:id="@+id/txt_jobCompany2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_jobtitle2"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:text="" />
 
-        <TextView
-            android:id="@+id/txt_postingDate"
+            <TextView
+                android:id="@+id/txt_jobLocation2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_jobCompany2"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/txt_jobPostingDate2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_jobLocation2"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:text="" />
+
+
+            <!--Column of text data-->
+            <TextView
+                android:id="@+id/txt_title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/txt_jobCompany2"
+                android:maxLines="1"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/txt_company2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_title2"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/txt_jobCompany2"
+                android:maxLines="1"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/txt_location2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_company2"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/txt_jobLocation2"
+                android:maxLines="1"
+                android:text="" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_location2"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/txt_jobPostingDate2"
+                android:maxLines="1"
+                android:text="" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <!--This cardview is on top - one that is visible -->
+    <!--card_view:cardBackgroundColor="#42a5f5"-->
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:foreground="?selectableItemBackground"
+        android:visibility="visible"
+        card_view:cardBackgroundColor="#80d6ff"
+        card_view:cardCornerRadius="12dp"
+        card_view:cardElevation="3dp"
+        card_view:contentPadding="4dp">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/txt_jobPostingDate"
-            android:layout_below="@+id/txt_location"
-            android:hint="@string/posting_date" />
-    </RelativeLayout>
-</LinearLayout>
+            android:layout_height="wrap_content">
+
+            <!--Column of text literals-->
+            <TextView
+                android:id="@+id/txt_jobtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/job_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_jobCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_jobtitle"
+                android:layout_marginTop="5dp"
+                android:text="@string/company"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_jobLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_jobCompany"
+                android:layout_marginTop="5dp"
+                android:text="@string/location"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_jobPostingDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_jobLocation"
+                android:layout_marginTop="5dp"
+                android:text="@string/posting_date"
+                android:textStyle="bold" />
+
+
+            <!--Column of data-->
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/txt_jobCompany"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/txt_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_title"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/txt_jobCompany"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/txt_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_company"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/txt_jobLocation"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/txt_postingDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_location"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/txt_jobPostingDate"
+                android:maxLines="1" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

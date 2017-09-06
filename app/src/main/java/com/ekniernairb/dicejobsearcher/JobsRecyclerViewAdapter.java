@@ -1,13 +1,21 @@
 package com.ekniernairb.dicejobsearcher;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ekniernairb.dicejobsearcher.constantContainers.AppConstants;
 import com.ekniernairb.dicejobsearcher.genericContainers.Jobs;
+import com.ekniernairb.dicejobsearcher.staticClasses.ColorSchemeButtons;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,82 +23,129 @@ import java.util.List;
  */
 
 public class JobsRecyclerViewAdapter extends RecyclerView.Adapter<JobsRecyclerViewAdapter.CustomViewHolder> {
-    private List<Jobs> itemListData;
-    private View listItemView;
+    private List<Jobs> mItemListData;
+    private View mListItemView;
+    private Context mContext;
+    private CardView mCardView;
 
     public JobsRecyclerViewAdapter(List<Jobs> arrayListData) {
-            this.itemListData = arrayListData;
+        this.mItemListData = arrayListData;
     }
 
 
-    @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        listItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.jobs_listitem, null);
-        CustomViewHolder viewHolder = new CustomViewHolder(listItemView);
+        this.mContext = parent.getContext();
+        mListItemView = LayoutInflater.from(mContext).inflate(R.layout.jobs_listitem, null);
+        CustomViewHolder viewHolder = new CustomViewHolder(mListItemView);
+        mCardView = (CardView) mListItemView.findViewById(R.id.card_view);
+
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        Jobs currentItem = itemListData.get(position);
+        Jobs currentItem = mItemListData.get(position);
 
-        holder.textViewTitle.setText(currentItem.getJobTitle());
-        holder.textViewCompany.setText(currentItem.getCompany());
-        holder.textViewLocation.setText(currentItem.getLocation());
-        holder.textViewPostingDate.setText(currentItem.getPostingDate());
+        holder.mTextViewTitle.setText(currentItem.getJobTitle());
+        holder.mTextViewCompany.setText(" " + currentItem.getCompany());
+        holder.mTextViewLocation.setText(" " + currentItem.getLocation());
+        holder.mTextViewPostingDate.setText(" " + currentItem.getPostingDate());
+
+        String color;
+        if (ColorSchemeButtons.hasSelectedColor) {
+            color = ColorSchemeButtons.colorStylesList.get(ColorSchemeButtons.colorButtonSelected).getColorCardView();
+            mCardView.setCardBackgroundColor(Color.parseColor(color));
+
+            // color for textviews (next)
+            color = ColorSchemeButtons.colorStylesList.get(ColorSchemeButtons.colorButtonSelected).getColorCardViewText();
+        } else {
+            color = "#000000";
+        }
 
 
+        /* These are the literal text fields */
+        holder.mTextViewTitle_Literal.setTextColor(Color.parseColor(color));
+        holder.mTextViewCompany_Literal.setTextColor(Color.parseColor(color));
+        holder.mTextViewLocation_Literal.setTextColor(Color.parseColor(color));
+        holder.mTextViewPostingDate_Literal.setTextColor(Color.parseColor(color));
 
-        /*
-        * Create all the findByViewIds records that you will read in. This is needed otherwise
-        * recyclerview will duplicate the views!
-        *
-        * I'm keeping this code in so as to show how not to do it...this duplicates records starting
-        * on record #10.
-        * */
-
-//        // assign the UI their data.
-//        TextView textTitleItem = (TextView) listItemView.findViewById(R.id.txt_title);
-//        TextView textCompanyItem = (TextView) listItemView.findViewById(R.id.txt_company);
-//        TextView textLocationItem = (TextView) listItemView.findViewById(R.id.txt_location);
-//        TextView textPostingDateItem = (TextView) listItemView.findViewById(R.id.txt_postingDate);
-
-//        textTitleItem.setText(currentItem.getJobTitle());
-//        textCompanyItem.setText(currentItem.getCompany());
-//        textLocationItem.setText(currentItem.getLocation());
-//        textPostingDateItem.setText(currentItem.getPostingDate());
-
-//        textItem = (TextView) listItemView.findViewById(R.id.txt_URL);
-//        textItem.setText(currentItem.getDetailURL());
-
+            /* These are the text fields with data */
+        holder.mTextViewTitle.setTextColor(Color.parseColor(color));
+        holder.mTextViewCompany.setTextColor(Color.parseColor(color));
+        holder.mTextViewLocation.setTextColor(Color.parseColor(color));
+        holder.mTextViewPostingDate.setTextColor(Color.parseColor(color));
     }
 
 
     @Override
     public int getItemCount() {
-        return (null != itemListData ? itemListData.size() : 0);
+        return (null != mItemListData ? mItemListData.size() : 0);
     }
 
 
-    class CustomViewHolder extends RecyclerView.ViewHolder {
+    class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /*
         * Create all the findByViewIds records that you will read in. This is needed otherwise
         * recyclerview will duplicate the views!
         * */
 
-        protected TextView textViewTitle;
-        protected TextView textViewCompany;
-        protected TextView textViewLocation;
-        protected TextView textViewPostingDate;
+        // Literal fields
+        protected TextView mTextViewTitle_Literal;
+        protected TextView mTextViewCompany_Literal;
+        protected TextView mTextViewLocation_Literal;
+        protected TextView mTextViewPostingDate_Literal;
+
+        // Data fields
+        protected TextView mTextViewTitle;
+        protected TextView mTextViewCompany;
+        protected TextView mTextViewLocation;
+        protected TextView mTextViewPostingDate;
 
 
         public CustomViewHolder(View view) {
             super(view);
-            this.textViewTitle = (TextView) view.findViewById(R.id.txt_title);
-            this.textViewCompany = (TextView) view.findViewById(R.id.txt_company);
-            this.textViewLocation = (TextView) view.findViewById(R.id.txt_location);
-            this.textViewPostingDate = (TextView) view.findViewById(R.id.txt_postingDate);
+            view.setOnClickListener(this);
+
+            /*
+            * Because I'm using shadowing, I'm using 2 layers of textViews.  This is because
+            * the text values have to match so that the vertical height is the same.
+            * */
+
+            /* These are the literal text fields */
+            this.mTextViewTitle_Literal = (TextView) view.findViewById(R.id.txt_jobtitle);
+            this.mTextViewCompany_Literal = (TextView) view.findViewById(R.id.txt_jobCompany);
+            this.mTextViewLocation_Literal = (TextView) view.findViewById(R.id.txt_jobLocation);
+            this.mTextViewPostingDate_Literal = (TextView) view.findViewById(R.id.txt_jobPostingDate);
+
+            /* These are the text fields with data */
+            this.mTextViewTitle = (TextView) view.findViewById(R.id.txt_title);
+            this.mTextViewCompany = (TextView) view.findViewById(R.id.txt_company);
+            this.mTextViewLocation = (TextView) view.findViewById(R.id.txt_location);
+            this.mTextViewPostingDate = (TextView) view.findViewById(R.id.txt_postingDate);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(mContext, "recyclerview on click", Toast.LENGTH_SHORT).show();
+
+            int position = getLayoutPosition();
+
+            // Build an arrayList that will have needed information from List<Jobs>.
+            ArrayList<String> jobsUrlData = new ArrayList<>(4);
+            jobsUrlData.add(0, MainActivity.jobs_AL.get(position).getDetailURL());
+            jobsUrlData.add(1, MainActivity.jobs_AL.get(position).getJobTitle());
+            jobsUrlData.add(2, MainActivity.jobs_AL.get(position).getCompany());
+            jobsUrlData.add(3, MainActivity.jobs_AL.get(position).getLocation());
+            jobsUrlData.add(4, MainActivity.jobs_AL.get(position).getPostingDate());
+
+
+            Intent mIntentWebViewActivity;
+            mIntentWebViewActivity = new Intent(mContext, WebViewActivity.class);
+            mIntentWebViewActivity.putStringArrayListExtra(AppConstants.PutExtra_JobURLInfo,
+                    jobsUrlData);
+            mContext.startActivity(mIntentWebViewActivity);
         }
     }
 }

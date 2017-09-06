@@ -68,7 +68,7 @@ public class GetJSONResponse extends AsyncTaskLoader<List<Jobs>> {
         List<Jobs> jobs_arraylist;
         jobs_arraylist = JSONParsing.extractJobsItems(this.JSONResponse);
 
-        MainActivity.jobs_AL =jobs_arraylist;
+        MainActivity.jobs_AL = jobs_arraylist;
 
         return jobs_arraylist;
     }
