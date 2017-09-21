@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Must be done prior to setContentView
+       /* Changes Activities theme colors.  Must do this prior to setContentView! */
         if (ColorSchemeButtons.hasSelectedColor) {
             //change color scheme.
-            setActivityTheme(this, ColorSchemeButtons.colorButtonSelected);
+            ColorSchemeButtons.setActivityTheme(this, ColorSchemeButtons.colorButtonSelected);
         } else {
             // overrides the manifest file setting for theme.
             this.setTheme(R.style.ColorSchemeDefault);
@@ -437,27 +437,5 @@ public class MainActivity extends AppCompatActivity
         colorStylesList.add(new ColorStyles(View.generateViewId(), "#689f38", "#387002", "#99d066", "#000000"));
 
         return colorStylesList;
-    }
-
-    /*
-    * Sets the Activities' theme.  Note: While technically not part of the Activity theme, also am including
-    * CardView and the TextView objects to change too.  They are logically part of this same task.
-    * */
-    private void setActivityTheme(Context context, int colorButtonSelected) {
-        // must be called before any Activity instantiation!
-        switch (colorButtonSelected) {
-            case 0:
-                context.setTheme(R.style.ColorSchemeButton0);
-                break;
-            case 1:
-                context.setTheme(R.style.ColorSchemeButton1);
-                break;
-            case 2:
-                context.setTheme(R.style.ColorSchemeButton2);
-                break;
-            case 3:
-                context.setTheme(R.style.ColorSchemeButton3);
-                break;
-        }
     }
 }

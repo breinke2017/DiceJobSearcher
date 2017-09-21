@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/prev_page"
                 android:text="@string/prev_page"
+                android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:visibility="invisible" />
 
@@ -40,6 +41,7 @@
                 android:hint="@string/next_page"
                 android:text="@string/next_page"
                 android:textSize="12sp"
+                android:textColor="@android:color/white"
                 android:visibility="invisible" />
 
             <ProgressBar

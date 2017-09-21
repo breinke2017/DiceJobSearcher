@@ -33,27 +33,35 @@
         <item name="colorPrimary">#42a5f5</item>
         <item name="colorPrimaryDark">#0077c2</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">#42a5f5</item>
     </style>
 
     <style name="ColorSchemeButton0" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#42a5f5</item>
         <item name="colorPrimaryDark">#0077c2</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">#42a5f5</item>
     </style>
 
     <style name="ColorSchemeButton1" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#3F51B5</item>
         <item name="colorPrimaryDark">#002984</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">#3F51B5</item>
     </style>
 
     <style name="ColorSchemeButton2" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#f48fb1</item>
         <item name="colorPrimaryDark">#bf5f82</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">#f48fb1</item>
     </style>
 
     <style name="ColorSchemeButton3" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#689f38</item>
         <item name="colorPrimaryDark">#387002</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">#689f38</item>
     </style>
 
 </resources>

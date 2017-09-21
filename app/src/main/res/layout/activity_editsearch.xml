@@ -71,14 +71,15 @@
         <TextView
             style="@style/TextTheme"
             android:layout_height="wrap_content"
-            android:text="@string/MaxAgeOfJobPosting" />
+            android:text="@string/MaxAgeOfJobPosting"
+            android:layout_width="160dp" />
 
         <EditText
             android:id="@+id/editText_edit_search_age"
             style="@style/EditTextTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/MaxAgeOfJobPosting_Hint"
+            android:hint="  Max Age"
             android:inputType="number" />
     </LinearLayout>
 </LinearLayout>

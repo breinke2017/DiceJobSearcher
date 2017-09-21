@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ekniernairb.dicejobsearcher.constantContainers.AppConstants;
+import com.ekniernairb.dicejobsearcher.staticClasses.ColorSchemeButtons;
 import com.ekniernairb.dicejobsearcher.staticClasses.SharedPrefStatic;
 
 /*
@@ -23,6 +24,18 @@ public class EditSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        /* Changes Activities theme colors.  Must do this prior to setContentView! */
+        if (ColorSchemeButtons.hasSelectedColor) {
+            //change color scheme.
+            ColorSchemeButtons.setActivityTheme(this, ColorSchemeButtons.colorButtonSelected);
+        } else {
+            // overrides the manifest file setting for theme.
+            this.setTheme(R.style.ColorSchemeDefault);
+        }
+
+
         setContentView(R.layout.activity_editsearch);
 
         // setup findByViewIds.

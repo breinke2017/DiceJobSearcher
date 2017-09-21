@@ -10,7 +10,7 @@
     <string name="SearchesEntireJobAd">Searches entire job ad</string>
     <string name="Location1">Location: City/State or ZipCode</string>
     <string name="MaxAgeOfJobPosting">Max age of job posting (in days)</string>
-    <string name="MaxAgeOfJobPosting_Hint">Max Age (in days)</string>
+    <string name="MaxAgeOfJobPosting_Hint">  Max Age  </string>
     <string name="jobEntryNoLongerExists">Job entry no longer exists on site.</string>
     <string name="menu_EditSearches">Edit Searches</string>
     <string name="menu_ShareText">Text</string>
